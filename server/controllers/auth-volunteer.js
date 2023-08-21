@@ -79,8 +79,7 @@ const logout = (req, res) => {
 
 // Function For get logged in VOLUNTEER 
 const getLoggedinVolunteer = async (req, res) => {
-    console.log("@@@@@@@@££££££££££££ we are calling get loggein...")
-
+ console.log("@@@@@@@@££££££££££££ we are calling get loggein...")
   console.log("🚀 ~ file: auth-volunteer.js:70 ~ getLoggedinVolunteer ~ getLoggedinVolunteer:", getLoggedinVolunteer)
   try {
     const volunteer = await Volunteer.findOne({ _id: req.volunteer._id }).select('_id email volunteername');
