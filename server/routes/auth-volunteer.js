@@ -8,3 +8,4 @@ router.post('/logout', logout);
 router.get('/currentVolunteer', authenticate, getLoggedinVolunteer);
 
 module.exports = router;
+
