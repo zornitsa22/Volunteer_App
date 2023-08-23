@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const SECRET = process.env.JWT_SECRET;
-const authenticate = async (req, res, next) => {
+const authenticateVol = async (req, res, next) => {
     console.log("auth.js is started........")
   try {
     console.log('🚀 ~ file: auth.js:6 ~ authenticate ~ accessToken:', req.cookies.accessToken);
@@ -16,5 +16,5 @@ const authenticate = async (req, res, next) => {
   }
 };
 
-module.exports = authenticate;
+module.exports = authenticateVol;
 

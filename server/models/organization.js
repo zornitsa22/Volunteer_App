@@ -17,6 +17,7 @@ const organizationSchema = mongoose.Schema(
     // projects:   [{type: mongoose.Types.ObjectId, ref: projects}],
     website: {type: String, required: [true, 'website is Required!']},
     logo:{type: String},
+    projects: [{ type: mongoose.Types.ObjectId, ref: 'Project'}],
   },
   {
     timestamps: true,
