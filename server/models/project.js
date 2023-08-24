@@ -15,10 +15,18 @@ const projectSchema = mongoose.Schema(
     cause: { type: [String], required: [true, 'Cause is Required!'] },
     capacity: { type: Number, required: [true, 'Capacity is Required!'] }, 
     contactEmail: { type: String, required: [true, 'Email is Required!'] },
-    volunteers: [{ type: mongoose.Types.ObjectId, ref: 'Volunteer'}],
+    volunteers: [
+      {
+        volunteer: { type: mongoose.Types.ObjectId, ref: 'Volunteer' },
+        status: { type: String, enum: ['pending', 'accepted', 'denied'], default: 'pending' },
+      }
+    ],
+
     organizationId: {type: mongoose.Types.ObjectId, ref: 'Organization', required: [true, 'Organization_Id is Required!']},
-    createdBy: { type: mongoose.Types.ObjectId, ref: 'Organization' }
+  
+    createdBy: {type: mongoose.Types.ObjectId, ref: 'Organization'},
     },
+
    
     { timestamps: true },
 );

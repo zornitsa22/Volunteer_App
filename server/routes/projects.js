@@ -14,6 +14,7 @@ const {
     getProjectsAppliedByVolunteer,
     getProjectsCreatedByOrganization,
     getVolunteersForProject,
+    respondToApplication,
     deleteProject,
 } = require('../controllers/projects');
 
@@ -32,15 +33,13 @@ router.use(authenticateOrg);
 router.get('/', getProjects);
 router.get('/:id', getProjectDetails);
 router.post('/', upload.single('image'), createProject);
-router.post('/:id/apply', applyForProject);
 router.put('/:id/', upload.single('image'), updateProject);
-
-
-
+router.post('/:id/apply', upload.single('image'), applyForProject);
 
 router.get('/volunteers/:id/projects', getProjectsAppliedByVolunteer);
 router.get('/organizations/:id/projects', getProjectsCreatedByOrganization);
 router.get('/projects/:id/volunteers', getVolunteersForProject);
+router.put('/respond-application', respondToApplication);
 router.delete('/projects/:id', deleteProject);
 
 module.exports = router;

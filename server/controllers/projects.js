@@ -1,7 +1,8 @@
-
+//const cloudinary = require('../config/cloudinary1');
 const Project = require('../models/project')
 const Organization = require('../models/organization');
 const Volunteer = require('../models/volunteer');
+
 
 
 // creating a NewProject with an uploaded file 
@@ -61,6 +62,12 @@ const getProjectDetails = async (req, res) => {
 // Applying for a project 
 const applyForProject = async (req, res) => {
     try {
+        // Handling the file upload first using multer and cloudinary
+        //const uploadedFile = await cloudinary.uploader.upload(req.file.path);
+
+        // Extracting the secure URLs of the uploaded files
+        //const imageUrl = uploadedFile.secure_url;
+
         // Updating the project Document to add the volunteer's ID to the 'volunteers' array
         const updatedProject = await Project.findByIdAndUpdate(
             req.params.id, 
@@ -75,9 +82,13 @@ const applyForProject = async (req, res) => {
             { new: true }
         );
 
+        // Adding the image URLs to the updated projectand saving the update
+        //updatedProject.image = imageUrl;
+        //await updatedProject.save();
+
         res.status(200).json({ updatedProject, updatedVolunteer });
     } catch (error) {
-        console.log("🚀 ~ file: projects.js:64 ~ applyForProject ~ error:", error);
+        console.log("🚀 ~ file: projects.js:91 ~ applyForProject ~ error:", error)
         res.status(500).json({ Error: 'Error applying for the project' });
     }
 };
@@ -88,7 +99,7 @@ const updateProject = async (req, res) => {
     const updatedProject = await Project.findByIdAndUpdate(
         req.params.id, 
         req.body, 
-        //{ image: req.file.path},
+        req.file.path,
         {
         new: true,
     });
@@ -102,23 +113,22 @@ const updateProject = async (req, res) => {
     }
 }; 
 
-// Get all projects applied for by a specific volunteer (My projects)
+
+// Getting all projects applied for by a specific volunteer (My projects)
 const getProjectsAppliedByVolunteer = async (req, res) => {
     try {
-         // Populating the volunteer's projects array as well as  the organization within each project
-        const volunteer = await Volunteer.findById(req.params.id).populate({
-            path: 'projects', 
-            select: 'Title location',
-            populate: { path:'organization', select: 'OrganizationName'}
-        });
-        // extracting the project array from the volunteer document
-        const appliedProjects = volunteer.projects; 
+        const volunteerIdToSearch = req.params.id; 
+        
+        // Finding all projects where the volunteer's ID is in the 'volunteers' array
+        const appliedProjects = await Project.find({ volunteers: volunteerIdToSearch });
+        
         res.status(200).json(appliedProjects);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error fetching projects applied by volunteer' });
     }
 };
+
 
 // Get all projects created by a specific organization (My projects)
 const getProjectsCreatedByOrganization = async (req, res) => {
@@ -168,6 +178,34 @@ const deleteProject = async (req, res) => {
     }
 };
 
+
+// Organization can accept or deny a project application by a volunteer
+const respondToApplication = async (req, res) => {
+    try {
+        const { projectId, volunteerId, status } = req.body;
+
+      // Update the project's volunteers array to set the status for the volunteer's application
+        const updatedProject = await Project.findByIdAndUpdate(
+        projectId,
+        { $set: { 'volunteers.$[elem].status': status } },
+        { arrayFilters: [{ 'elem.volunteer': volunteerId }] }
+        );
+
+      // Update the volunteer's projects array to set the status for the applied project
+        const updatedVolunteer = await Volunteer.findByIdAndUpdate(
+        volunteerId,
+        { $set: { 'projects.$[elem].status': status } },
+        { arrayFilters: [{ 'elem.project': projectId }] }
+        );
+
+        res.status(200).json({ message: 'Application response recorded', updatedProject, updatedVolunteer });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error responding to project application' });
+    }
+};
+
+
 module.exports = {
     getProjects,
     getProjectDetails,
@@ -178,4 +216,5 @@ module.exports = {
     getProjectsCreatedByOrganization,
     getVolunteersForProject,
     deleteProject,
+    respondToApplication,
 };
