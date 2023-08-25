@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const SECRET = process.env.JWT_SECRET;
-const authenticate = async (req, res, next) => {
+const authenticateOrg = async (req, res, next) => {
     console.log("authOrga.js is started........@@@@@@@")
   try {
     console.log('🚀 ~ file: auth-orga.js:6 ~ authenticate ~ accessToken:', req.cookies.accessToken);
@@ -17,4 +17,4 @@ const authenticate = async (req, res, next) => {
   }
 };
 
-module.exports = authenticate;
+module.exports = authenticateOrg;

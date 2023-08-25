@@ -6,15 +6,17 @@ const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
 
 // Function For VOLUNTEER Registration
 const register = async (req, res) => {
+  console.log("register calling.......")
   try {
-    const newVolunteer = await Volunteer.create(req.body);
+    const newVolunteer = await Volunteer.create({...req.body,  image: req.file.path });
     console.log("🚀 ~ file: auth-volunteer.js:10 ~ register ~ newVolunteer:", newVolunteer)
     const volunteer = { _id: newVolunteer._id, 
         volunteername: newVolunteer.volunteername, 
         email: newVolunteer.email , 
         skills: newVolunteer.skills, 
         description: newVolunteer.description,
-        profileImage: newVolunteer.profileImage
+        contactInfo:newVolunteer.contactInfo,
+        image: newVolunteer.image
     };
     //user is the payload
     const accessToken = jwt.sign(volunteer, SECRET);
