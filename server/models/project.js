@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose');
 const cloudinary = require('../config/cloudinary');
-const fs = require('fs');
+//const fs = require('fs');
 
 // Defining the project schema
 const projectSchema = mongoose.Schema(
@@ -15,16 +15,11 @@ const projectSchema = mongoose.Schema(
     cause: { type: [String], required: [true, 'Cause is Required!'] },
     capacity: { type: Number, required: [true, 'Capacity is Required!'] }, 
     contactEmail: { type: String, required: [true, 'Email is Required!'] },
-    volunteers: [
-      {
-        volunteer: { type: mongoose.Types.ObjectId, ref: 'Volunteer' },
-        status: { type: String, enum: ['pending', 'accepted', 'denied'], default: 'pending' },
-      }
-    ],
-
-    organizationId: {type: mongoose.Types.ObjectId, ref: 'Organization', required: [true, 'Organization_Id is Required!']},
-  
+    volunteers: [{ type: mongoose.Types.ObjectId, ref: 'Volunteer' }],
+    organizationId: {type: mongoose.Types.ObjectId, ref: 'Organization', 
+    required: [true, 'Organization_Id is Required!']},
     createdBy: {type: mongoose.Types.ObjectId, ref: 'Organization'},
+    status: { type: String, enum: ['Pending', 'Accepted', 'Denied'], default: 'Pending' }
     },
 
    
@@ -42,7 +37,7 @@ projectSchema.pre('save', async function (next) {
       const res = await cloudinary.uploader.upload(imagePath, options); 
         console.log("🚀 ~ file: project.js:33 ~ res:", res)
       this.image = res.secure_url; 
-      fs.unlinkSync(imagePath); 
+      //fs.unlinkSync(imagePath); 
       next(); 
     } catch (e) {
       next(e.message); 

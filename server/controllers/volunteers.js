@@ -1,4 +1,5 @@
 const Volunteer = require('../models/volunteer');
+const Project = require('../models/project')
 
 const getAllVolunteers = async (req, res) => {
   try {
@@ -59,11 +60,27 @@ const deleteVolunteer = async (req, res) => {
   }
 };
 
+// Getting all projects applied for by a specific volunteer (My projects)
+const getProjectsAppliedByVolunteer = async (req, res) => {
+  try {
+      const volunteerIdToSearch = req.params.id; 
+      
+      // Finding all projects where the volunteer's ID is in the 'volunteers' array
+      const appliedProjects = await Project.find({ volunteers: volunteerIdToSearch });
+      
+      res.status(200).json(appliedProjects);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error fetching projects applied by volunteer' });
+  }
+};
+
 module.exports = {
 //   createBook,
   getAllVolunteers,
   getVolunteerById,
   updateVolunteer,
   deleteVolunteer,
+  getProjectsAppliedByVolunteer,
 };
 

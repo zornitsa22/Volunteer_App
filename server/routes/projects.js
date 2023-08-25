@@ -3,7 +3,6 @@ const express = require ('express');
 // Creating a router instance 
 const router = express.Router();
 
-
 // Import the projects-related controller functions
 const { 
     getProjects,
@@ -11,17 +10,13 @@ const {
     createProject,
     applyForProject,
     updateProject,
-    getProjectsAppliedByVolunteer,
-    getProjectsCreatedByOrganization,
-    getVolunteersForProject,
-    respondToApplication,
     deleteProject,
+    updateProjectDecision,
 } = require('../controllers/projects');
 
 // Importing the authentication Middelwares 
 const authenticateVol = require('../middlewares/auth')
 const authenticateOrg = require('../middlewaresOrga/authOrga')
-
 
 // Importing the upload Object from the multer configuration
 const upload = require('../config/multer');
@@ -33,14 +28,11 @@ router.use(authenticateOrg);
 router.get('/', getProjects);
 router.get('/:id', getProjectDetails);
 router.post('/', upload.single('image'), createProject);
-router.put('/:id/', upload.single('image'), updateProject);
+router.put('/:id/update', upload.single('image'), updateProject);
 router.post('/:id/apply', upload.single('image'), applyForProject);
-
-router.get('/volunteers/:id/projects', getProjectsAppliedByVolunteer);
-router.get('/organizations/:id/projects', getProjectsCreatedByOrganization);
-router.get('/projects/:id/volunteers', getVolunteersForProject);
-router.put('/respond-application', respondToApplication);
 router.delete('/projects/:id', deleteProject);
+router.put('/:id/decision', updateProjectDecision);
+
 
 module.exports = router;
 

@@ -16,7 +16,7 @@ const register = async (req, res) => {
         description : newOrganization.description,
     
         // streetstreet_no : newOrganization.streetstreet_no,
-        // zipcode : newOrganization.zipcode
+        // zipcode : newOrganization.zipcode,
         // city : newOrganization.city,
         // projects : newOrganization.projects,
         logo: newOrganization.profileImage,

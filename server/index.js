@@ -7,8 +7,8 @@ const connectDB = require('./config/db');
 
 // Importing your routers
 const projectRouter = require('./routes/projects');
-//const volunteerRouter = require('./routes/volunteers');
-//const organizationRouter = require('./routes/organizations');
+const volunteerRouter = require('./routes/volunteers');
+const organizationRouter = require('./routes/organizations');
 
 // Import your routers for authentication
 const authRouter = require('./routes/auth-volunteer');
@@ -30,8 +30,8 @@ app.use('/authOrga', authRouterOrga);
 
 // Mounting volunteer/project/organization routers
 app.use('/api/projects', projectRouter);
-//app.use('/api/volunteers', volunteerRouter);
-//app.use('/api/organizations', organizationRouter);
+app.use('/api/volunteers', volunteerRouter);
+app.use('/api/organizations', organizationRouter);
 
 // database connection and server starting
 connectDB().then(() => {
