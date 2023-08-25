@@ -14,13 +14,14 @@ const {
 } = require("../controllers/organizations");
 
 const authenticate = require("../middlewares/auth");
+const upload = require('../config/multer');
 router.use(authenticate);
 
 router.get("/", getAllOrganizations);
 router.get("/:id", getOrganizationById);
 
 // router.post("/", createOrganization);
-router.put("/:id", updateOrganization);
+router.put("/:id/update", upload.single('image'), updateOrganization);
 router.delete("/:id", deleteOrganization);
 
 router.get('/:id/projects', getProjectsCreatedByOrganization);

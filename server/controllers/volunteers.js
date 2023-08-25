@@ -1,5 +1,7 @@
 const Volunteer = require('../models/volunteer');
-const Project = require('../models/project')
+const Project = require('../models/project');
+const cloudinary = require('../config/cloudinary');
+
 
 const getAllVolunteers = async (req, res) => {
   try {
@@ -26,23 +28,38 @@ const getVolunteerById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+// Updating an existing Project
 const updateVolunteer = async (req, res) => {
+  console.log("update volunteer is calling...")
   try {
-    const {
-      params: { id },
-      body,
-    } = req;
-    // const updatedVolunteer= await Volunteer.findByIdAndUpdate()
-    const updatedVolunteer = await Volunteer.findOneAndUpdate({ _id: id }, body, { new: true });
-    console.log("🚀 ~ file: volunteer-profile.js:47 ~ updateVolunteer ~ updatedVolunteer:", updatedVolunteer)
-    if (!updatedVolunteer) {
-      res.status(404).json({ message: 'Volunteer Not Found' });
-    }
-    res.json(updatedVolunteer);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+
+    // Handling the file upload first using multer and cloudinary
+    const uploadedFile = await cloudinary.uploader.upload(req.file.path);
+
+    // Extracting the secure URLs of the uploaded files
+    const imageUrl = uploadedFile.secure_url;
+
+    const updatedVolunteer = await Volunteer.findByIdAndUpdate(
+        req.params.id, 
+        req.body, 
+        //req.file.path,
+       {
+        new: true,
+       });
+    console.log("🚀 ~ file: volunteers.js:40 ~ updateVolunteer ~ updatedVolunteer:", updatedVolunteer)
+    // Adding the image URLs to the updated projectand saving the update
+    updatedVolunteer.image = imageUrl;
+  
+  if(!updatedVolunteer) {
+      res.status(404).json({Error: 'updatedVolunteer not Found!'})
   }
-};
+  res.status(202).json(updatedVolunteer)
+  } catch(error) {
+  console.log("🚀 ~ file: volunteers.js:45 ~ updateVolunteer ~ error:", error)
+  res.status(500).json({Error:'Error updating volunteer'})  
+  }
+}; 
+
 const deleteVolunteer = async (req, res) => {
   try {
     const {
@@ -76,7 +93,6 @@ const getProjectsAppliedByVolunteer = async (req, res) => {
 };
 
 module.exports = {
-//   createBook,
   getAllVolunteers,
   getVolunteerById,
   updateVolunteer,

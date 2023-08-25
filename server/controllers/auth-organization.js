@@ -6,21 +6,21 @@ const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
 
 // Function For Organization Registration
 const register = async (req, res) => {
+  console.log("register Organization is @@ calling.......")
   try {
-    const newOrganization = await Organization.create(req.body);
+    const newOrganization = await Organization.create({...req.body,  image: req.file.path });
     console.log("🚀 ~ file: auth-organization.js:11 ~ register ~ newOrganization:", newOrganization)
     const organization = { _id: newOrganization._id, 
         organizationName: newOrganization.organizationName, 
         email: newOrganization.email, 
         contactInfo : newOrganization.contactInfo,
         description : newOrganization.description,
-    
+        location : newOrganization.location,
+        image: newOrganization.image,
+        website: newOrganization.website,
         // streetstreet_no : newOrganization.streetstreet_no,
         // zipcode : newOrganization.zipcode,
-        // city : newOrganization.city,
         // projects : newOrganization.projects,
-        logo: newOrganization.profileImage,
-        website: newOrganization.website,
     };
     //organization is the payload
     const accessToken = jwt.sign(organization, SECRET);
