@@ -19,7 +19,7 @@ const register = async (req, res) => {
         // zipcode : newOrganization.zipcode,
         // city : newOrganization.city,
         // projects : newOrganization.projects,
-        logo: newOrganization.profileImage,
+        image: newOrganization.image,
         website: newOrganization.website,
     };
     //organization is the payload

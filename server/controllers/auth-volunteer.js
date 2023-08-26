@@ -7,6 +7,14 @@ const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
 // Function For VOLUNTEER Registration
 const register = async (req, res) => {
   console.log("register calling.......")
+
+// Check if a volunteer with the same email already exists
+const existingVolunteer = await Volunteer.findOne({ email: req.body.email });
+if (existingVolunteer) {
+  return res.status(400).json({ message: 'Volunteer with this email already exists' });
+}
+
+ // If no existing volunteer found, proceed with registration
   try {
     const newVolunteer = await Volunteer.create({...req.body,  image: req.file.path });
     console.log("🚀 ~ file: auth-volunteer.js:10 ~ register ~ newVolunteer:", newVolunteer)

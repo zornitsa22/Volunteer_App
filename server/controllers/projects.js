@@ -62,6 +62,16 @@ const getProjectDetails = async (req, res) => {
 // Applying for a project 
 const applyForProject = async (req, res) => {
     try {
+        // Check if the volunteer has already applied for the project
+        const project = await Project.findById(req.params.id).populate('volunteers');
+        const volunteerAlreadyApplied = project.volunteers.some(
+            volunteer => volunteer._id.equals(req.volunteer._id)
+        );
+
+        if (volunteerAlreadyApplied) {
+            return res.status(400).json({ Error: 'Volunteer has already applied for this project' });
+        }
+
         // Handling the file upload first using multer and cloudinary
         const uploadedFile = await cloudinary.uploader.upload(req.file.path);
 
@@ -132,8 +142,8 @@ const deleteProject = async (req, res) => {
 };
 
 
-// updating the project status based on the decision made by the organization:t
-const updateProjectDecision = async (req, res) => {
+// updating the project status based on the decision made by the organization
+const changeProjectStatusBasedOnDecision = async (req, res) => {
     
     const { decision } = req.body;
 
@@ -169,5 +179,5 @@ module.exports = {
     applyForProject,
     updateProject,
     deleteProject,
-    updateProjectDecision
+    changeProjectStatusBasedOnDecision
 };

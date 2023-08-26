@@ -16,10 +16,11 @@ const organizationSchema = mongoose.Schema(
     // city: {type: String, required: [true, 'city is Required!']},
     // projects:   [{type: mongoose.Types.ObjectId, ref: projects}],
     website: {type: String, required: [true, 'website is Required!']},
-    logo:{type: String},
+    image:{type: String},
     createdBy: {type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
     projects: [{ type: mongoose.Types.ObjectId, ref: 'Project'}],
     volunteers: [{ type: mongoose.Types.ObjectId, ref: 'Volunteer'}],
+    contactInfo:{type: String, required: [true, 'Description is Required!']}, 
     decision: { type: String, enum: ['Pending', 'Accepted', 'Denied'], default: 'Pending' }
   },
   
