@@ -1,9 +1,11 @@
 import { useState, useContext } from "react";
 import { AuthContextOrg } from "../context/AuthOrg";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function RegOrg() {
   const context = useContext(AuthContextOrg);
+  const navigate = useNavigate();
+
 
   const [organization, setOrganization] = useState({
     organizationName: "",
@@ -40,7 +42,8 @@ function RegOrg() {
    // Handle form submission
    const handleSubmit = e => {
     e.preventDefault();
-    context.register(organization); // Call the register function from the context
+    context.RegOrg(organization); // Call the register function from the context
+    navigate("/login/organization")
     };
 
   // function to handle changes in the form input fields

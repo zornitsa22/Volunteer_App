@@ -16,14 +16,15 @@ function Main() {
   return (
     <main>
       <Routes>
-        <Route path="/" element={<ProtectedRoute />}>
-          <Route path="project" element={<Projects />} />
-          <Route path="project/new" element={<NewProject />} />
-          <Route path="projects/:id" element={<ProjectsDetails />} />
-          <Route path="projects/:id/update" element={<UpdateProject />} />
-          <Route path="projects/:id/apply" element={<ApplyProject />} />
+        <Route path="/projects" element={<ProtectedRoute />}>
+          <Route path="" element={<Projects />} />
+          <Route path="new" element={<NewProject />} />
+          <Route path=":id" element={<ProjectsDetails />} />
+          <Route path=":id/update" element={<UpdateProject />} />
+          <Route path=":id/apply" element={<ApplyProject />} />
         </Route>
-        <Route path="" element={<Home />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<Home />} />
         <Route path="/login" element={<OptionPage />} />
         <Route path="/login/volunteer" element={<LoginVol />} />
         <Route path="/register/volunteer" element={<RegVol />} />

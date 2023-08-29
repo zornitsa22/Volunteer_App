@@ -1,10 +1,10 @@
 import { useState, useContext } from "react";
 import { AuthContextOrg } from "../context/AuthOrg";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function LoginOrg() {
   const context = useContext(AuthContextOrg);
-
+  const navigate = useNavigate();
   const [organization, setOrganization] = useState({
     email: "",
     password: "",
@@ -20,7 +20,8 @@ function LoginOrg() {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Organization Login:", organization);
+    context.login(organization); // Call the login function from the context
+    navigate("/projects")
   };
 
 // Redirect to homepage if the organization is already authenticated

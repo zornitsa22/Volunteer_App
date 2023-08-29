@@ -1,9 +1,11 @@
 import { useState, useContext } from "react";
 import { AuthContextVol } from "../context/AuthVol";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function LoginVol() {
   const context = useContext(AuthContextVol);
+  const navigate = useNavigate();
+
 
   const [volunteer, setVolunteer] = useState({
     email: "",
@@ -19,7 +21,8 @@ function LoginVol() {
 // function to handle changes in the form input fields
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Volunteer Login:", volunteer);
+    context.login(volunteer); // Call the login function from the context
+    navigate("/projects")
   };
 
  // Redirect to homepage if volunteer is already authenticated

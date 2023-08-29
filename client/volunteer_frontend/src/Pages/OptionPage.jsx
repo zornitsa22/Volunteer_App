@@ -1,8 +1,24 @@
 
 import patrick from "../assets/patrick.png"
 import cars from "../assets/cars.png"
+import { AuthContextOrg } from "../context/AuthOrg";
+import { AuthContextVol } from "../context/AuthVol";
+import { useContext } from "react";
+import { Navigate } from "react-router-dom";
+
 
 const OptionPage = () => {
+//accessing context values from AuthContextVol and AuthContextOrg
+  const { volunteer, loading: volLoading } = useContext(AuthContextVol);  
+  const { organization, loading: orgLoading } = useContext(AuthContextOrg);
+ // Determine if a user is logged in by checking either volunteer or organization
+const isLoggedIn = volunteer || organization;
+      
+// // Combining loading states from both contexts
+ const isLoading = volLoading || orgLoading;
+ if(!isLoading && isLoggedIn) {
+    return <Navigate  to="/"/>
+ }
 return (
     <div >
         <div className='max-w-[1000px] mx-auto px-4 py-12  flex flex-col justify-center w-full h-full'>

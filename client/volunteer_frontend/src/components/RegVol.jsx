@@ -1,13 +1,14 @@
 import { useState, useContext } from "react";
 import { AuthContextVol } from "../context/AuthVol";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function RegVol() {
    // Access the authentication context
   const context = useContext(AuthContextVol);
+  const navigate = useNavigate();
 
   const [volunteer, setVolunteer] = useState({
-    name: "",
+    volunteername: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -17,9 +18,9 @@ function RegVol() {
   });
 
   // destructuring values of the volunteer state
-  const { name, email, password, confirmPassword, skills, description, image } = volunteer;
+  const { volunteerName, email, password, confirmPassword, skills, description, image } = volunteer;
   const formData = new FormData();
-  formData.append('name', name);
+  formData.append('volunteername', volunteerName);
   formData.append('email', email);
   formData.append('password', password);
   formData.append('confirmPassword', confirmPassword);
@@ -32,6 +33,7 @@ function RegVol() {
   const handleSubmit = e => {
   e.preventDefault();
   context.register(volunteer); // Call the register function from the context
+  navigate("/login/volunteer");
   };
 // function to handle changes in the form input fields
     const handleChange = (e) => {
