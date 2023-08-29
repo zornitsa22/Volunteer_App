@@ -19,6 +19,7 @@ const organizationSchema = mongoose.Schema(
     createdBy: {type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
     projects: [{ type: mongoose.Types.ObjectId, ref: 'Project'}],
     volunteers: [{ type: mongoose.Types.ObjectId, ref: 'Volunteer'}],
+    contactInfo:{type: String, required: [true, 'Description is Required!']}, 
     decision: { type: String, enum: ['Pending', 'Accepted', 'Denied'], default: 'Pending' }
   },
   

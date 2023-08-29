@@ -17,6 +17,8 @@ const volunteerSchema = mongoose.Schema(
     contactInfo:{type: [String], required: [true, 'contact is Required!']},
     description:{type: String, required: [true, 'Description is Required!']},
     image:{type: String},
+    contactInfo:{type: String, required: [true, 'Description is Required!']}, 
+    projects: [{ type: mongoose.Types.ObjectId, ref: 'Project' }]
   },
   {
     timestamps: true,

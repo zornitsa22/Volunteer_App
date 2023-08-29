@@ -21,6 +21,8 @@ const register = async (req, res) => {
         // streetstreet_no : newOrganization.streetstreet_no,
         // zipcode : newOrganization.zipcode,
         // projects : newOrganization.projects,
+        image: newOrganization.image,
+        website: newOrganization.website,
     };
     //organization is the payload
     const accessToken = jwt.sign(organization, SECRET);

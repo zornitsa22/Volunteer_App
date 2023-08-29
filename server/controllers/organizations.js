@@ -102,29 +102,6 @@ const getProjectsCreatedByOrganization = async (req, res) => {
   }
 };
 
-//  updating the decision for a project application
-
-const updateProjectDecision = async (req, res) => {
-    const { decision } = req.body; // Should be 'accept' or 'deny'
-
-    try {
-        // Find the project by ID and update the decision status
-        const updatedProject = await Project.findByIdAndUpdate(
-          req.params.id,
-            { $set: { decision } },
-            { new: true }
-        );
-
-        if (!updatedProject) {
-            return res.status(404).json({ error: 'Project not found' });
-        }
-        res.status(200).json(updatedProject);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error updating project decision' });
-    }
-};
-
 // projectdetails for a specific organization
 
 const getProjectByIdCreatedByOrganization = async (req, res) => {
@@ -144,6 +121,25 @@ const getProjectByIdCreatedByOrganization = async (req, res) => {
   }
 } 
 
+//  updating the decision for a project application
+
+const updateProjectDecision = async (req, res) => {
+    const { decision } = req.body; // Should be 'Accepted' or 'Denied'
+    const projectId = req.params.projectId
+
+    try {
+      const updatedProject = await Project.changeProjectStatusBasedOnDecision(projectId, decision);
+
+      if (!updatedProject) {
+          return res.status(404).json({ message: 'Project not found' });
+      }
+
+      res.status(200).json({ message: 'Project decision updated', project: updatedProject });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error updating project decision' });
+  }
+};
 
 
 module.exports = {
