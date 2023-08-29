@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Logo from "../Logo.png";
+
 import { AuthContextOrg } from "../context/AuthOrg";
 import { AuthContextVol } from "../context/AuthVol";
 import { useContext,useEffect } from "react";
@@ -28,8 +29,24 @@ const Header = () => {
         <nav>
           <ul className="flex space-x-4">
             <li>
-              <Link to="/" className="text-gray-800 hover:text-gray-400 mr-4">
+              <Link to="/"  className="text-gray-800 hover:text-gray-400 mr-4">
                 Home
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/causes"
+                className="text-gray-800 hover:text-gray-400 mr-4"
+              >
+                Causes
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/projects"
+                className="text-gray-800 hover:text-gray-400 mr-4"
+              >
+                Projects
               </Link>
             </li>
             <li>
@@ -43,9 +60,8 @@ const Header = () => {
             <li>
               <Link
                 to="/projects"
-                className="text-gray-800 hover:text-gray-400 mr-4"
-              >
-                Projects
+                className="text-gray-800 hover:text-gray-400 mr-4">
+               Featured Projects
               </Link>
             </li>
             {

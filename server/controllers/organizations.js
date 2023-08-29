@@ -1,7 +1,6 @@
+const cloudinary = require('../config/cloudinary');
 const Organization = require("../models/organization");
 const Project = require('../models/project')
-
-
 
 const getAllOrganizations = async (req, res) => {
   console.log("get organization is calling......");
@@ -40,27 +39,32 @@ const getOrganizationById = async (req, res) => {
 
 const updateOrganization = async (req, res) => {
   try {
-    const {
-      params: { id },
-      body,
-    } = req;
-    const updateOrganization = await Organization.findOneAndUpdate(
-      { _id: id },
-      body,
-      { new: true }
-    );
-    console.log(
-      "🚀 ~ file: organizations.js:56 ~ updateOrganization ~ updateOrganization:",
-      updateOrganization
-    );
-    if (!updateOrganization) {
-      res.status(404).json({ message: "Organization Not Found" });
-    }
-    res.json(updateOrganization);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  // Handling the file upload first using multer and cloudinary
+  const uploadedFile = await cloudinary.uploader.upload(req.file.path);
+
+  // Extracting the secure URLs of the uploaded files
+  const imageUrl = uploadedFile.secure_url;
+
+  const updatedOrganization = await Organization.findByIdAndUpdate(
+      req.params.id, 
+      req.body, 
+      // req.file.path,
+      { new: true, });
+  console.log("🚀 ~ file: organizations.js:55 ~ updateOrganization ~ updatedOrganization:", updatedOrganization)
+
+  // Adding the image URLs to the updated projectand saving the update
+  updatedOrganization.image = imageUrl;
+  
+  if(!updatedOrganization) {
+      res.status(404).json({Error: 'Organization not Found!'})
   }
-};
+  res.status(202).json(updatedOrganization)
+  } catch(error) {
+  console.log("🚀 ~ file: organizations.js:81 ~ updateOrganization ~ error:", error)
+  res.status(500).json({Error:'Error updating organization'})  
+  }
+}; 
+
 
 const deleteOrganization = async (req, res) => {
   try {
@@ -70,8 +74,7 @@ const deleteOrganization = async (req, res) => {
     const deletedOrganization = await Organization.findOneAndDelete({
       _id: id,
     });
-    console.log(
-      "🚀 ~ file: organizations.js:76 ~ deleteOrganization ~ deletedOrganization:",
+    console.log("🚀 ~ file: organizations.js:76 ~ deleteOrganization ~ deletedOrganization:",
       deletedOrganization
     );
     if (!deletedOrganization) {

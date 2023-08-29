@@ -14,6 +14,7 @@ const {
 } = require("../controllers/organizations");
 
 const authenticate = require("../middlewares/auth");
+const upload = require('../config/multer');
 router.use(authenticate);
 
 router.get("/", getAllOrganizations);

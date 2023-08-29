@@ -30,6 +30,10 @@ function Main() {
         <Route path="/register/volunteer" element={<RegVol />} />
         <Route path="/login/organization" element={<LoginOrg />} />
         <Route path="/register/organization" element={<RegOrg />} />
+      
+        
+        
+
       </Routes>
     </main>
   );

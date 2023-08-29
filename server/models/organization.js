@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const cloudinary = require('../config/cloudinary');
+const fs = require('fs');
+
 const organizationSchema = mongoose.Schema(
   {
     organizationName: { type: String, required: [true, 'organizationName is Required!'] },
@@ -11,10 +14,6 @@ const organizationSchema = mongoose.Schema(
     },
     description: {type: String, required: [true, 'Description is Required!']},
     contactInfo:{type: [String], required: [true, 'contact is Required!']},
-    // streetstreet_no: {type: String, required: [true, 'streetstreet_no is Required!']},
-    // zipcode: {type: String, required: [true, 'zipcode is Required!']},
-    // city: {type: String, required: [true, 'city is Required!']},
-    // projects:   [{type: mongoose.Types.ObjectId, ref: projects}],
     website: {type: String, required: [true, 'website is Required!']},
     image:{type: String},
     createdBy: {type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
@@ -52,6 +51,25 @@ organizationSchema.pre('save', async function (next) {
     console.log('HASHING ERROR!!', error);
   }
 });
+
+organizationSchema.pre('save', async function (next) {
+  try {
+    const options = {
+      public_id: this._id,
+      folder: process.env.CLOUDINARY_BOOKS_FOLDER_NAME,
+    };
+    const imagePath = this.image;
+    const res = await cloudinary.uploader.upload(imagePath, options);
+    console.log('🚀 ~ file: event.js:23 ~ res:', res);
+
+    this.image = res.secure_url;
+    fs.unlinkSync(imagePath);
+    next();
+  } catch (e) {
+    next(e.message);
+  }
+});
+
 
 const model = mongoose.model('Organization', organizationSchema);
 module.exports = model;

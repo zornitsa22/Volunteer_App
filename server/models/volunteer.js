@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+
+const cloudinary = require('../config/cloudinary');
+const fs = require('fs');
+
 const volunteerSchema = mongoose.Schema(
   {
     volunteername: { type: String, required: [true, 'volunteername is Required!'] },
@@ -10,6 +14,7 @@ const volunteerSchema = mongoose.Schema(
     //   required: [true, 'Password is Required!'],
     },
     skills:{type: [String], required: [true, 'Skill is Required!']},
+    contactInfo:{type: [String], required: [true, 'contact is Required!']},
     description:{type: String, required: [true, 'Description is Required!']},
     image:{type: String},
     contactInfo:{type: String, required: [true, 'Description is Required!']}, 
@@ -40,6 +45,23 @@ volunteerSchema.pre('save', async function (next) {
     next();
   } catch (error) {
     console.log('HASHING ERROR!!', error);
+  }
+});
+volunteerSchema.pre('save', async function (next) {
+  try {
+    const options = {
+      public_id: this._id,
+      folder: process.env.CLOUDINARY_BOOKS_FOLDER_NAME,
+    };
+    const imagePath = this.image;
+    const res = await cloudinary.uploader.upload(imagePath, options);
+    console.log('🚀 ~ file: event.js:23 ~ res:', res);
+
+    this.image = res.secure_url;
+    fs.unlinkSync(imagePath);
+    next();
+  } catch (e) {
+    next(e.message);
   }
 });
 
