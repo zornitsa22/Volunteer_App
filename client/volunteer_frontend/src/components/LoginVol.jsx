@@ -27,7 +27,9 @@ function LoginVol() {
 
   if (!context.loading && !context.volunteer) {
     return (
+    
       <>
+        <h1>Login volunteer</h1>
         {context.errors?.message}
         <form onSubmit={handleSubmit}>
           <label>Email:</label>
