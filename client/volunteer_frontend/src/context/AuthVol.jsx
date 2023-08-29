@@ -1,9 +1,10 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "../axiosInstance";
 import { useNavigate } from "react-router-dom";
-export const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
+export const AuthContextVol = createContext();
+
+const AuthProviderVol = ({ children }) => {
   const [volunteer, setVolunteer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState(null);
@@ -48,7 +49,7 @@ const AuthProvider = ({ children }) => {
   const logout = async () => {
     setLoading(true);
     try {
-      const res = await axios.post("auth/logout", {});
+      await axios.post("auth/logout", {});
       setState(null, false, null);
       navigate("/");
       window.location.reload();
@@ -58,12 +59,19 @@ const AuthProvider = ({ children }) => {
     }
   };
   return (
-    <AuthContext.Provider
-      value={(volunteer, loading, errors, login, register, logout)}
+    <AuthContextVol.Provider
+    value={{
+      volunteer,
+      loading,
+      errors,
+      login,
+      register,
+      logout
+    }}
     >
       {children}
-    </AuthContext.Provider>
+    </AuthContextVol.Provider>
   );
 };
 
-export default AuthProvider;
+export default AuthProviderVol;

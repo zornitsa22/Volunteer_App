@@ -20,10 +20,10 @@ const Header = () => {
             </li>
             <li>
               <Link
-                to="/causes"
+                to="/about"
                 className="text-gray-800 hover:text-gray-400 mr-4"
               >
-                Causes
+                About
               </Link>
             </li>
             <li>
@@ -32,14 +32,6 @@ const Header = () => {
                 className="text-gray-800 hover:text-gray-400 mr-4"
               >
                 Projects
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/about"
-                className="text-gray-800 hover:text-gray-400 mr-4"
-              >
-                About
               </Link>
             </li>
             <li>
