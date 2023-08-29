@@ -57,9 +57,9 @@ function RegOrg() {
         }
       };
 
-  // Redirect to homepage if organization is already authenticated
+  // Redirect to projects pageif organization is already authenticated
   if (!context.loading && context.organization) {
-    return <Navigate to="/" />;
+    return <Navigate to="/project" />;
   }
  // Render the registration form if not authenticated
   if (!context.loading && !context.organization) {

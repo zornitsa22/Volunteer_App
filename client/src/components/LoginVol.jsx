@@ -27,7 +27,7 @@ function LoginVol() {
 
  // Redirect to homepage if volunteer is already authenticated
   if (!context.loading && context.volunteer) {
-    return <Navigate to="/" />;
+    return <Navigate to="/projects" />;
   }
 
 // Render the login form if not authenticated

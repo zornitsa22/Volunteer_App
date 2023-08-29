@@ -1,21 +1,27 @@
 import { Link } from "react-router-dom";
 import Logo from "../Logo.png";
-
 import { AuthContextOrg } from "../context/AuthOrg";
 import { AuthContextVol } from "../context/AuthVol";
 import { useContext,useEffect } from "react";
+
 const Header = () => {
     //accessing context values from AuthContextVol and AuthContextOrg
-    const { volunteer, loading: volLoading } = useContext(AuthContextVol);  
-    const { organization, loading: orgLoading } = useContext(AuthContextOrg);
+    const { volunteer, logout,  loading: volLoading } = useContext(AuthContextVol);  
+    const { organization, Logout,  loading: orgLoading } = useContext(AuthContextOrg);
   
+    const handleLogout = () => {
+      if (volunteer) {
+          logout(); 
+      } else if (organization) {
+          Logout(); 
+      }
+  };
     // Determine if a user is logged in by checking either volunteer or organization
      const isLoggedIn = volunteer || organization;
   
     // // Combining loading states from both contexts
      const isLoading = volLoading || orgLoading;
      useEffect(() => {
-     console.log("jkhsefhjkesfhjksf",isLoading,isLoggedIn)
      }, [isLoading,isLoggedIn])
   return (
     <header className="bg-white border-b border-gray-300">
@@ -57,15 +63,11 @@ const Header = () => {
                 About
               </Link>
             </li>
-            <li>
-              <Link
-                to="/projects"
-                className="text-gray-800 hover:text-gray-400 mr-4">
-               Featured Projects
-              </Link>
-            </li>
             {
-              !isLoading  && isLoggedIn ?  (<li> <p>hello {volunteer?.volunteername}</p> <button>Logout</button></li>
+              !isLoading  && isLoggedIn ?  (
+              <li> 
+                <p>{volunteer?.volunteername || organization?.organizationName} </p> 
+                <button onClick={handleLogout}>Logout</button></li>
 
               ):(<li>
                 <Link
