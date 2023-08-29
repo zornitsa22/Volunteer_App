@@ -2,8 +2,6 @@ const cloudinary = require('../config/cloudinary');
 const Organization = require("../models/organization");
 const Project = require('../models/project')
 
-
-
 const getAllOrganizations = async (req, res) => {
   console.log("get organization is calling......");
   try {
@@ -66,7 +64,6 @@ const updateOrganization = async (req, res) => {
   res.status(500).json({Error:'Error updating organization'})  
   }
 }; 
-
 
 
 const deleteOrganization = async (req, res) => {
