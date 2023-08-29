@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-white font-montserrat mt-10 py-6">
+    <footer className="bg-white font-montserrat mt-10 py-6" style={{backgroundColor:"green"}}>
       <div className="container mx-auto md:flex md:justify-between md:items-center">
         <div className="text-center md:text-left py-4 md:py-0 md:pl-8">
           <p>&copy; 2023 VOL Volunteering Platform</p>

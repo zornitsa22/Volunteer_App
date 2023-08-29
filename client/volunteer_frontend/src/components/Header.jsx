@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Logo from "../Logo.png";
 
+
 const Header = () => {
   return (
     <header className="bg-white border-b border-gray-300">
@@ -14,40 +15,43 @@ const Header = () => {
         <nav>
           <ul className="flex space-x-4">
             <li>
-              <Link to="/" className="text-gray-800 hover:text-gray-400 mr-4">
+              <Link to="/"  className="text-gray-800 hover:text-gray-400 mr-4">
                 Home
               </Link>
             </li>
             <li>
               <Link
                 to="/causes"
-                className="text-gray-800 hover:text-gray-400 mr-4"
-              >
+                className="text-gray-800 hover:text-gray-400 mr-4" >
                 Causes
               </Link>
             </li>
             <li>
               <Link
                 to="/projects"
-                className="text-gray-800 hover:text-gray-400 mr-4"
-              >
-                Projects
+                className="text-gray-800 hover:text-gray-400 mr-4">
+               Featured Projects
               </Link>
             </li>
             <li>
               <Link
                 to="/about"
-                className="text-gray-800 hover:text-gray-400 mr-4"
-              >
+                className="text-gray-800 hover:text-gray-400 mr-4" >
                 About
               </Link>
             </li>
             <li>
               <Link
-                to="/login"
-                className="text-gray-800 hover:text-gray-400 mr-4"
-              >
+                to="/logInOption" 
+                className="text-gray-800 hover:text-gray-400 mr-4" >
                 Log In
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/signUpOption" 
+                className="text-gray-800 hover:text-gray-400 mr-4">
+                SignUp
               </Link>
             </li>
           </ul>
