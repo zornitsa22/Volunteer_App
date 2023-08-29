@@ -26,7 +26,7 @@ function LoginOrg() {
 
 // Redirect to homepage if the organization is already authenticated
   if (!context.loading && context.organization) {
-    return <Navigate to="/" />;
+    return <Navigate to="/projects" />;
   }
 
   //Render the login form if not authenticated

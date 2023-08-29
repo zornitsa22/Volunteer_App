@@ -1,9 +1,11 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "../axiosInstance";
 import { useNavigate } from "react-router-dom";
+
 export const AuthContextOrg = createContext();
 
 const AuthProviderOrg = ({ children }) => {
+
     const [organization, setOrganization] = useState(null);
     const [loading, setLoading] = useState(true);
     const [errors, setErrors] = useState(null);
@@ -31,7 +33,7 @@ const login = async (organization) => {
     try {
         const res = await axios.post("authOrga/login", organization);
         setState(res.data.organization, false, null);
-        navigate("/");
+        navigate("/projects");
     } catch (error) {
         console.log(error.response);
         setState(null, false, error.response.errors);
@@ -44,7 +46,7 @@ const register = async (organization) => {
     try {
         const res = await axios.post("authOrga/register", organization);
         setState(res.data.organization, false, null);
-        navigate("/");
+        navigate("/login/organization");
     } catch (error) {
         console.log(error.response);
         setState(null, false, error.response.errors);
@@ -57,7 +59,7 @@ const logout = async () => {
     try {
         await axios.post("authOrga/logout", {});
         setState(null, false, null);
-        navigate("/");
+        navigate("/Home");
         window.location.reload();
     } catch (error) {
         console.log(error.response);

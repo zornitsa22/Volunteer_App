@@ -18,15 +18,25 @@ function RegVol() {
   });
 
   // destructuring values of the volunteer state
-  const { volunteerName, email, password, confirmPassword, skills, description, image } = volunteer;
+  const { volunteername, 
+    email, 
+    password, 
+    confirmPassword, 
+    skills, 
+    description, 
+    image,
+    contactInfo,
+  } = volunteer;
+
   const formData = new FormData();
-  formData.append('volunteername', volunteerName);
+  formData.append('volunteername', volunteername);
   formData.append('email', email);
   formData.append('password', password);
   formData.append('confirmPassword', confirmPassword);
   formData.append('skills', skills);
   formData.append('description', description);
   formData.append('image', image);
+  formData.append('contactInfo', contactInfo);
   
  
  // Handle form submission
@@ -45,11 +55,11 @@ function RegVol() {
         setVolunteer({ ...volunteer, [e.target.name]: e.target.value });
       }
     };
-
+    // Redirect to projects page if organization is already authenticated
   if (!context.loading && context.volunteer) {
-    return <Navigate to="/" />;
+    return <Navigate to="/project" />;
   }
-
+  //Render the registration form if not authenticated
   if (!context.loading && !context.volunteer) {
     return (
 
@@ -60,8 +70,8 @@ function RegVol() {
         <input
           className='bg-[#ccd6f6] my-1 p-2'
           type="text"
-          name="name"
-          value={volunteer.name}
+          name="volunteername"
+          value={volunteer.volunteername}
           onChange={handleChange}
           required
         />
@@ -100,6 +110,16 @@ function RegVol() {
           value={volunteer.skills}
           onChange={handleChange}
         />
+
+        <label>Contact Info:</label>
+        <input
+          name="contactInfo"
+          value={volunteer.contactInfo}
+          onChange={handleChange}
+          className='bg-[#ccd6f6]'
+        />
+
+
         <label>Description:</label>
         <textarea
           rows="5"
