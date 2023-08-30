@@ -12,57 +12,56 @@ function RegVol() {
     email: "",
     password: "",
     confirmPassword: "",
-    skills: "",
+    skills: [],
     description: "",
     image: "",
+    contactInfo: [],
   });
-
-  // destructuring values of the volunteer state
-  const { volunteername, 
-    email, 
-    password, 
-    confirmPassword, 
-    skills, 
-    description, 
-    image,
-    contactInfo,
-  } = volunteer;
-
-  const formData = new FormData();
-  formData.append('volunteername', volunteername);
-  formData.append('email', email);
-  formData.append('password', password);
-  formData.append('confirmPassword', confirmPassword);
-  formData.append('skills', skills);
-  formData.append('description', description);
-  formData.append('image', image);
-  formData.append('contactInfo', contactInfo);
   
- 
+
  // Handle form submission
-  const handleSubmit = e => {
-  e.preventDefault();
-  context.register(volunteer); // Call the register function from the context
-  navigate("/login/volunteer");
+    const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { volunteername, 
+      email, 
+      password, 
+      confirmPassword, 
+      skills, 
+      description, 
+      image,
+      contactInfo,
+    } = volunteer;
+    
+    const formData = new FormData();
+    formData.append("volunteername", volunteername);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("confirmPassword", confirmPassword);
+    formData.append("skills", skills);
+    formData.append("description", description);
+    formData.append("image", image);
+    formData.append("contactInfo", contactInfo);
+
+    await context.register(formData); 
+    navigate("/login/volunteer");
   };
-// function to handle changes in the form input fields
-    const handleChange = (e) => {
-      if (e.target.name === 'image') {
-        // If the input is an image, set the selected image file
-        setVolunteer({ ...volunteer, image: e.target.files[0] });
-      } else {
-        // If the input is not an image, update the state with the new value
-        setVolunteer({ ...volunteer, [e.target.name]: e.target.value });
-      }
-    };
+   // function to handle changes in the form input fields
+   const handleChange = e => {
+    if (e.target.name === 'image') {
+      setVolunteer({ ...volunteer, image: e.target.files[0] });
+    } else {
+      setVolunteer({ ...volunteer, [e.target.name]: e.target.value });
+    }
+  };
+
+
     // Redirect to projects page if organization is already authenticated
   if (!context.loading && context.volunteer) {
-    return <Navigate to="/project" />;
+    return <Navigate to="/project"/>;
   }
   //Render the registration form if not authenticated
   if (!context.loading && !context.volunteer) {
     return (
-
       <div className='max-w-full mx-auto px-4 py-12 flex flex-col items-center'>
         <h2 className='text-orange-600 font-bold py-12 text-4xl text-center'> Please Register </h2>
       <form className='flex flex-col max-w-[600px] w-full' onSubmit={handleSubmit}>
@@ -118,7 +117,6 @@ function RegVol() {
           onChange={handleChange}
           className='bg-[#ccd6f6]'
         />
-
 
         <label>Description:</label>
         <textarea

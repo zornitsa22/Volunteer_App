@@ -35,7 +35,7 @@ const Header = () => {
         <nav>
           <ul className="flex space-x-4">
             <li>
-              <Link to="/"  className="text-gray-800 hover:text-gray-400 mr-4">
+              <Link to="/home"  className="text-gray-800 hover:text-gray-400 mr-4">
                 Home
               </Link>
             </li>

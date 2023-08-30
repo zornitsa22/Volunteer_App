@@ -59,7 +59,7 @@ const logout = async () => {
     try {
         await axios.post("authOrga/logout", {});
         setState(null, false, null);
-        navigate("/Home");
+        navigate("/home");
         window.location.reload();
     } catch (error) {
         console.log(error.response);

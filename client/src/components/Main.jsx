@@ -23,7 +23,7 @@ function Main() {
           <Route path=":id/update" element={<UpdateProject />} />
           <Route path=":id/apply" element={<ApplyProject />} />
         </Route>
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/about" element={<Home />} />
         <Route path="/login" element={<OptionPage />} />
         <Route path="/login/volunteer" element={<LoginVol />} />

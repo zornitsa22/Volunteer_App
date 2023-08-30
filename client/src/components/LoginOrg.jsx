@@ -55,7 +55,7 @@ function LoginOrg() {
             onChange={handleChange}
             required
           />
-          <button className="text-black border-2 hover:bg-pink-600 hover:border-pink-600 px-4 py-3 my-8 mx-auto flex items-center">Login as Volunteer</button>
+          <button className="text-black border-2 hover:bg-pink-600 hover:border-pink-600 px-4 py-3 my-8 mx-auto flex items-center">Login as Organization</button>
         </form>
       </div>
     );
