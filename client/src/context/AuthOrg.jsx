@@ -54,7 +54,7 @@ const register = async (organization) => {
 };
 
 // Function to handle organization logout
-const logout = async () => {
+const Logout = async () => {
     setLoading(true);
     try {
         await axios.post("authOrga/logout", {});
@@ -76,7 +76,7 @@ return (
         errors,
         login,
         register,
-        logout
+        Logout
     }}
     >
         {children}

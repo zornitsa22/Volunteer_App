@@ -30,6 +30,7 @@ function RegOrg() {
   } = organization;
 
   const formData = new FormData();
+  
   formData.append('organizationName', organizationName);
   formData.append('email', email);
   formData.append('password', password);

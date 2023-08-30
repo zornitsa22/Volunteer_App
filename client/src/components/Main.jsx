@@ -25,6 +25,7 @@ function Main() {
         </Route>
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<Home />} />
+        <Route path="/cause" element={<Home />} />
         <Route path="/login" element={<OptionPage />} />
         <Route path="/login/volunteer" element={<LoginVol />} />
         <Route path="/register/volunteer" element={<RegVol />} />
