@@ -34,15 +34,15 @@ function RegOrg() {
   formData.append('email', email);
   formData.append('password', password);
   formData.append('confirmPassword', confirmPassword);
-  formData.append('skills', image);
+  formData.append('image', image);
   formData.append('description', description);
-  formData.append('image', contactInfo);
+  formData.append('contactInfo', contactInfo);
   formData.append('website', website);
-  
+
    // Handle form submission
    const handleSubmit = e => {
     e.preventDefault();
-    context.RegOrg(organization); // Call the register function from the context
+    context.register(organization); // Call the register function from the context
     navigate("/login/organization")
     };
 
