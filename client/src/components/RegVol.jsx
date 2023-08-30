@@ -54,7 +54,6 @@ function RegVol() {
     }
   };
 
-
     // Redirect to projects page if organization is already authenticated
   if (!context.loading && context.volunteer) {
     return <Navigate to="/project"/>;
