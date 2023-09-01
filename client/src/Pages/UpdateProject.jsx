@@ -1,18 +1,22 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from '../axiosInstance';
+//import { AuthContextOrg } from "../context/AuthOrg";
+//import { useContext } from "react";
 
 const UpdateProject = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    //const { organization } = useContext(AuthContextOrg);
 
     const [project, setProject] = useState({
-        name: '',
+        title: '',
         description: '',
         location: '',
         skills: '',
         ocurrence: '',
         cause: '',
+        image: '',
         capacity: '',
         contactEmail: '',
         tasks: '',
@@ -35,24 +39,23 @@ const UpdateProject = () => {
 
     const updateProject = async () => {
         try {
-            /*const {
-                name,
+            const {
+                title,
                 description,
                 location,
-                Skills,
+                skills,
                 ocurrence,
                 cause,
                 capacity,
                 contactEmail,
-                Tasks,
+                tasks,
                 latitude,
                 longitude,
-                organizationId,
                 image
             } = project;
 
             const formData = new FormData();
-            formData.append('name', name);
+            formData.append('title', title);
             formData.append('description', description);
             formData.append('location', location);
             formData.append('skills', skills);
@@ -63,39 +66,37 @@ const UpdateProject = () => {
             formData.append('tasks', tasks);
             formData.append('latitude', latitude);
             formData.append('longitude', longitude);
-            formData.append('organizationId', organizationId);
-            formData.append('image', image);*/
+            //formData.append('organizationId', organization?.organizationId);
+            formData.append('image', image);
 
-            const response = await axios.put(`/api/projects/${id}`, project);
+            const response = await axios.put(`/api/projects/${id}/update`, formData);
             setProject(response.data);
-            navigate('/projects');
+            navigate('/home');
         } catch (error) {
             console.error('Error updating Project', error);
         }
     };
 
-    /*const handleChange = (e) => {
-        const { name, value, files } = e.target;
-        
-        setProject(prevProject => ({
-            ...prevProject,
-            [name]: name === 'image' ? files[0] : value
-        }));
-    };*/
-
-    const handleChange = (e) => {
-      const { name, value } = e.target;
-      setProject({ ...project, [name]: value });
-    };
-
     const handleSubmit = (e) => {
-        e.preventDefault();
-        updateProject();
-    };
+      e.preventDefault();
+      updateProject();
+  };
+
+ // function to handle changes in the form input fields
+ const handleChange = (e) => {
+    if (e.target.name === 'image') {
+      // If the input is an image, set the selected image file
+      setProject({ ...project, image: e.target.files[0] });
+    } else {
+      // If the input is not an image, update the state with the new value
+      setProject({ ...project, [e.target.name]: e.target.value });
+    }
+  };
+
 
     return (
       <div className='max-w-full mx-auto px-4 py-12 flex flex-col items-center'>
-      <h2 className='text-orange-600 font-bold py-12 text-4xl text-center'> Please Register </h2>
+      <h2 className='text-orange-600 font-bold py-12 text-4xl text-center'> Please Update Your project </h2>
           <form className='flex flex-col max-w-[600px] w-full' onSubmit={handleSubmit}>
         
             <label htmlFor="title">Title</label>
@@ -159,24 +160,24 @@ const UpdateProject = () => {
             className='bg-[#ccd6f6] my-1 p-2'
             name="longitude" 
             value={project.longitude} 
-            onChange={handleChange} />
+    onChange={handleChange} />
 
-          <label>Description:</label>
-          <textarea
-          rows="5"
-          name="description"
-          value={project.description}
-          onChange={handleChange}
-          className='bg-[#ccd6f6]'
-          />
+            <label>Description:</label>
+            <textarea
+            rows="5"
+            name="description"
+            value={project.description}
+            onChange={handleChange}
+            className='bg-[#ccd6f6]'
+            />
 
-            {/*<label htmlFor="">CV</label>
+            <label htmlFor="">CV</label>
             <input type="file"
             name='image' 
             accept="image/*"
-            onChange={handleChange} />*/}
+            onChange={handleChange} />
 
-           <button 
+            <button 
             type="submit"
             className="text-black border-2 bg-green-300 hover:bg-pink-600 hover:border-pink-600 px-4 py-3 my-8 mx-auto flex items-center"
             >Update Project</button>

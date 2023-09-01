@@ -13,6 +13,8 @@ const upload = require('../config/multer');
 router.use(authenticate);
 router.get('/', getAllVolunteers);
 router.get('/:id', getVolunteerById);
+
+
 router.get('/:id/projects', getProjectsAppliedByVolunteer)
 router.put('/:id/update',upload.single('image'), updateVolunteer);
 router.delete('/:id', deleteVolunteer);

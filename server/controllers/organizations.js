@@ -90,10 +90,9 @@ const deleteOrganization = async (req, res) => {
 const getProjectsCreatedByOrganization = async (req, res) => {
   try {
     const organizationId = req.params.id; 
+    console.log("Organization ID:", organizationId)
 
-    // Find projects where the organization's ID matches the "organizationId" field
-    const projects = await Project.find({ organizationId })
-    //.populate('volunteers');
+    const projects = await Project.find({ organizationId });
 
     res.status(200).json(projects);
   } catch (error) {

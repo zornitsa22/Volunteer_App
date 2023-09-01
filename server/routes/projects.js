@@ -30,7 +30,7 @@ router.get('/:id', getProjectDetails);
 router.post('/', upload.single('image'), createProject);
 router.put('/:id/update', upload.single('image'), updateProject);
 router.post('/:id/apply', upload.single('image'), applyForProject);
-router.delete('/projects/:id', deleteProject);
+router.delete('/:id', deleteProject);
 router.put('/:id/decision', changeProjectStatusBasedOnDecision);
 
 

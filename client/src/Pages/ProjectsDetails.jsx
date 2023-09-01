@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { AuthContextOrg } from "../context/AuthOrg";
 import { AuthContextVol } from "../context/AuthVol";
 import { Link, useParams, useNavigate } from "react-router-dom";
-//import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import axios from "../axiosInstance";
 
 const ProjectDetails = () => {
@@ -45,24 +45,34 @@ const handleDelete = async () => {
           <img src={project.image} alt="image" style={{ height: "450px"}} />
           <h2 className='text-orange-600 font-bold py-6 text-4xl text-center'> {project.title} </h2>
           <p className="text-2xl font-bold"> {project.description}</p>
-          <p>Tasks: {project.Tasks}</p>
+          <p>Tasks: {project.tasks}</p>
           <p>Location: {project.location}</p>
-          <p>Occurrence: {project.ocurrence}</p>
+          <p>When: {project.ocurrence}</p>
           <p>Cause: {project.cause}</p>
           <p>Capacity: {project.capacity}</p>
-          <p>ContactInfo: {project.contactInfo}</p>
-          <p>Skills: {project.Skills}</p>
+          <p>Contact: {project.contactEmail}</p>
+          <p>Skills: {project.skills}</p>
           <div className='flex items-center gap-6 py-6'>
 
-          {/*<div className='flex gap-6 justify-center items-center'>
-              <MapContainer
+          <div className='flex gap-6 justify-center items-center' style={{ width: "100%", height: "200px" }}>
+            <MapContainer
                 center={[project.latitude, project.longitude]}
                 zoom={13}
-                style={{ width: "100%", height: "200px" }}>
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                <Marker position={[project.latitude, project.longitude]} />
+                scrollWheelZoom={false}
+                >
+                <TileLayer 
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                />
+                
+                <Marker position={[project.latitude, project.longitude]}>
+                  <Popup>
+                    {project.location}
+                  </Popup>
+                </Marker>
             </MapContainer>
           </div>
+          
 
           {/* Render the Apply button for logged-in volunteers */}
           {isLoggedInVol && (

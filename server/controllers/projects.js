@@ -4,12 +4,12 @@ const Organization = require('../models/organization');
 const Volunteer = require('../models/volunteer');
 
 
-
 // creating a NewProject with an uploaded file 
 const createProject = async (req, res) => {
     try {
-        const project = await Project.create({ ...req.body, image: req.file.path, createdBy: req.organization._id  });
+        const project = await Project.create({ ...req.body, image: req.file.path, organizationId: req.organization._id  });
         console.log("🚀 ~ file: projects.js:11 ~ createProject ~ project:", project)
+        console.log('orgaID', req.organization._id )
 
         // adding the created project to the organization's project array
         const organization = await Organization.findByIdAndUpdate(
@@ -46,7 +46,7 @@ const getProjectDetails = async (req, res) => {
     try {
         const project = await Project.findById(req.params.id)
         .populate(
-            { path: 'createdBy', select: 'organizationName email' },
+            { path: 'organizationId', select: 'organizationName email' },
         );
         console.log("🚀 ~ file: projects.js:46 ~ getProjectById ~ project:", project)
         if (!project) {
@@ -110,7 +110,6 @@ const updateProject = async (req, res) => {
     const updatedProject = await Project.findByIdAndUpdate(
         req.params.id, 
         req.body, 
-        //req.file.path,
         {
         new: true,
     });
@@ -119,7 +118,7 @@ const updateProject = async (req, res) => {
     }
     res.status(202).json(updatedProject)
     } catch(error) {
-    console.log("🚀 ~ file: projects.js:81 ~ updateProject ~ error:", error)
+    console.log("🚀 ~ file: projects.js:122 ~ updateProject ~ error:", error)
     res.status(500).json({Error:'Error updating project'})  
     }
 }; 
@@ -169,7 +168,6 @@ const changeProjectStatusBasedOnDecision = async (req, res) => {
     res.status(500).json({ error: 'Error updating project decision' });
     }
 };
-
 
 
 module.exports = {
