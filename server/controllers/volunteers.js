@@ -91,6 +91,20 @@ const getProjectsAppliedByVolunteer = async (req, res) => {
       res.status(500).json({ error: 'Error fetching projects applied by volunteer' });
   }
 };
+// Function For VOLUNTEER Profile 
+// Function For get logged in VOLUNTEER 
+const getLoggedinVolunteer = async (req, res) => {
+  console.log(" we are calling get loggein...")
+   console.log("🚀 ~ file: auth-volunteer.js:70 ~ getLoggedinVolunteer ~ getLoggedinVolunteer:", getLoggedinVolunteer)
+   try {
+     const volunteer = await Volunteer.findOne({ _id: req.volunteer._id }).select('_id email volunteername skills contactInfo description image');
+     console.log("🚀 ~ file: auth-volunteer.js:73 ~ getLoggedinVolunteer ~ volunteer:", volunteer)
+     res.json({ volunteer });
+   } catch (error) {
+     console.log("🚀 ~ file: auth-volunteer.js:76 ~ getLoggedinVolunteer ~ error:", error)
+     res.json({ message: error.message });
+   }
+ };
 
 module.exports = {
   getAllVolunteers,
@@ -98,5 +112,6 @@ module.exports = {
   updateVolunteer,
   deleteVolunteer,
   getProjectsAppliedByVolunteer,
+  getLoggedinVolunteer,
 };
 

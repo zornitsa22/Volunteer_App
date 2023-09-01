@@ -79,7 +79,10 @@ axios
 
   return (
     <div className='max-w-full mx-auto px-4 py-12 flex flex-col items-center'>
-    <h2 className='text-orange-600 font-bold py-12 text-4xl text-center'> Please Add Your project </h2>
+    <h2 className='text-orange-600 font-bold py-12 after:text-4xl sm:text-3xl md:text-3xl lg:text-4xl text-center'> Welcome 
+      <span className='text-cyan-500'> {organization.organizationName}</span> 
+      <br />
+      Please Add your Project </h2>
         <form className='flex flex-col max-w-[600px] w-full' onSubmit={handleSubmit}>
       
           <label htmlFor="title">Title</label>
