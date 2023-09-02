@@ -12,6 +12,7 @@ const {
     updateProject,
     deleteProject,
     changeProjectStatusBasedOnDecision,
+    volunteersForProject
 } = require('../controllers/projects');
 
 // Importing the authentication Middelwares 
@@ -32,6 +33,7 @@ router.put('/:id/update', upload.single('image'), updateProject);
 router.post('/:id/apply', upload.single('image'), applyForProject);
 router.delete('/:id', deleteProject);
 router.put('/:id/decision', changeProjectStatusBasedOnDecision);
+router.get('/:id/volunteers', volunteersForProject);
 
 
 module.exports = router;

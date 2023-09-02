@@ -83,15 +83,16 @@ const UpdateProject = () => {
   };
 
  // function to handle changes in the form input fields
- const handleChange = (e) => {
+const handleChange = (e) => {
     if (e.target.name === 'image') {
-      // If the input is an image, set the selected image file
-      setProject({ ...project, image: e.target.files[0] });
+        // If the input is an image, set the selected image file
+        setProject({ ...project, image: e.target.files[0] });
     } else {
-      // If the input is not an image, update the state with the new value
-      setProject({ ...project, [e.target.name]: e.target.value });
+        // If the input is not an image, update the state with the new value
+        setProject({ ...project, [e.target.name]: e.target.value });
     }
-  };
+};
+
 
 
     return (

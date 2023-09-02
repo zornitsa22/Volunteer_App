@@ -18,7 +18,21 @@ const volunteerSchema = mongoose.Schema(
     description:{type: String, required: [true, 'Description is Required!']},
     image:{type: String},
     contactInfo:{type: String, required: [true, 'Description is Required!']}, 
-    projects: [{ type: mongoose.Types.ObjectId, ref: 'Project' }]
+    projects: [{ type: mongoose.Types.ObjectId, ref: 'Project' }],
+    decision: {
+      type: String,
+      enum: ['Pending', 'Accepted', 'Denied'],
+      default: 'Pending',
+  },
+  status: {
+      type: String,
+      enum: ['Applied', 'Accepted', 'Denied'],
+      default: 'Applied',
+  },
+  projectId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Project',
+  },
   },
   {
     timestamps: true,

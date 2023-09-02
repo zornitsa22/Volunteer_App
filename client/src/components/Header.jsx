@@ -24,6 +24,7 @@ const Header = () => {
   };
   // Determine if a user is logged in by checking either volunteer or organization
   const isLoggedIn = volunteer || organization;
+  const isLoggedInOrg = organization 
 
   // // Combining loading states from both contexts
   const isLoading = volLoading || orgLoading;
@@ -145,6 +146,17 @@ const Header = () => {
                       >
                         Projects
                       </Link>
+                    </li>
+
+                    <li>
+                      {isLoggedInOrg && (
+                      <Link
+                        to={"/projects/id:/update"}
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
+                        Update Project
+                      </Link>
+                      )}
                     </li>
 
                     <li>

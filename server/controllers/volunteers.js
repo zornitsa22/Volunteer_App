@@ -80,7 +80,7 @@ const deleteVolunteer = async (req, res) => {
 // Getting all projects applied for by a specific volunteer (My projects)
 const getProjectsAppliedByVolunteer = async (req, res) => {
   try {
-      const volunteerIdToSearch = req.params.id; 
+      const volunteerIdToSearch = req.params.volunteerid; 
       
       // Finding all projects where the volunteer's ID is in the 'volunteers' array
       const appliedProjects = await Project.find({ volunteers: volunteerIdToSearch });
@@ -106,6 +106,29 @@ const getLoggedinVolunteer = async (req, res) => {
    }
  };
 
+ // Function to update the decision for a volunteer
+const updateVolunteerDecision = async (req, res) => {
+  const { decision } = req.body; // Should be 'Accepted' or 'Denied'
+  const volunteerId = req.params.id;
+
+  try {
+      const updatedVolunteer = await Volunteer.findByIdAndUpdate(
+          volunteerId,
+          { decision },
+          { new: true }
+      );
+
+      if (!updatedVolunteer) {
+          return res.status(404).json({ message: 'Volunteer not found' });
+      }
+
+      res.status(200).json({ message: 'Volunteer decision updated', volunteer: updatedVolunteer });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error updating volunteer decision' });
+  }
+};
+
 module.exports = {
   getAllVolunteers,
   getVolunteerById,
@@ -113,5 +136,6 @@ module.exports = {
   deleteVolunteer,
   getProjectsAppliedByVolunteer,
   getLoggedinVolunteer,
+  updateVolunteerDecision,
 };
 
