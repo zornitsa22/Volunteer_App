@@ -33,7 +33,7 @@ const login = async (organization) => {
     try {
         const res = await axios.post("authOrga/login", organization);
         setState(res.data.organization, false, null);
-        navigate("/projects");
+        navigate("/home");
     } catch (error) {
         console.log(error.response);
         setState(null, false, error.response.errors);

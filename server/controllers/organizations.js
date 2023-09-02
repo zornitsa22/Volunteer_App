@@ -89,11 +89,10 @@ const deleteOrganization = async (req, res) => {
 // Get all projects created by a specific organization (My projects)
 const getProjectsCreatedByOrganization = async (req, res) => {
   try {
-    const organizationId = req.params.id; 
+    const organizationId = req.params.organizationId; 
+    console.log("Organization ID:", organizationId)
 
-    // Find projects where the organization's ID matches the "organizationId" field
-    const projects = await Project.find({ organizationId })
-    //.populate('volunteers');
+    const projects = await Project.find({organizationId: req.organization._id });
 
     res.status(200).json(projects);
   } catch (error) {
@@ -140,6 +139,19 @@ const updateProjectDecision = async (req, res) => {
       res.status(500).json({ error: 'Error updating project decision' });
   }
 };
+// Function For get logged in Organization:::
+const getLoggedinOrganization = async (req, res) => {
+  console.log("we are calling get loggein...")
+  console.log("🚀 ~ file: auth-organization.js:90 getLoggedinOrganization ~  req:", getLoggedinOrganization);
+try {
+  const organization = await Organization.findOne({ _id: req.organization._id }).select('_id email organizationName description contactInfo website projects decision');
+  console.log("🚀 ~ file: auth-organization.js:87 ~ getLoggedinOrganization ~ organization:", organization)
+  res.json({ organization });
+} catch (error) {
+  console.log("🚀 ~ file: auth-organization.js:90 ~ getLoggedinOrganization ~ error:", error)
+  res.json({ message: error.message });
+}
+};
 
 
 module.exports = {
@@ -150,5 +162,6 @@ module.exports = {
   deleteOrganization,
   getProjectByIdCreatedByOrganization,
   getProjectsCreatedByOrganization,
-  updateProjectDecision
+  updateProjectDecision,
+  getLoggedinOrganization,
 };

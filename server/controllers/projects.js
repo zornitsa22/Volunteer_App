@@ -4,12 +4,12 @@ const Organization = require('../models/organization');
 const Volunteer = require('../models/volunteer');
 
 
-
 // creating a NewProject with an uploaded file 
 const createProject = async (req, res) => {
     try {
-        const project = await Project.create({ ...req.body, image: req.file.path, createdBy: req.organization._id  });
+        const project = await Project.create({ ...req.body, image: req.file.path, organizationId: req.organization._id  });
         console.log("🚀 ~ file: projects.js:11 ~ createProject ~ project:", project)
+        
 
         // adding the created project to the organization's project array
         const organization = await Organization.findByIdAndUpdate(
@@ -46,7 +46,7 @@ const getProjectDetails = async (req, res) => {
     try {
         const project = await Project.findById(req.params.id)
         .populate(
-            { path: 'createdBy', select: 'organizationName email' },
+            { path: 'organizationId', select: 'organizationName email' },
         );
         console.log("🚀 ~ file: projects.js:46 ~ getProjectById ~ project:", project)
         if (!project) {
@@ -105,12 +105,11 @@ const applyForProject = async (req, res) => {
 };
 
 // Updating an existing Project
-const updateProject = async (req, res) => {
+/*const updateProject = async (req, res) => {
     try {
     const updatedProject = await Project.findByIdAndUpdate(
         req.params.id, 
         req.body, 
-        //req.file.path,
         {
         new: true,
     });
@@ -119,10 +118,64 @@ const updateProject = async (req, res) => {
     }
     res.status(202).json(updatedProject)
     } catch(error) {
-    console.log("🚀 ~ file: projects.js:81 ~ updateProject ~ error:", error)
+    console.log("🚀 ~ file: projects.js:122 ~ updateProject ~ error:", error)
     res.status(500).json({Error:'Error updating project'})  
     }
-}; 
+}; */
+
+const updateProject = async (req, res) => {
+    try {
+        const projectId = req.params.id;
+
+        // Check if a new image file was uploaded
+        let imageUrl = null;
+        if (req.file) {
+            // Upload the new image to Cloudinary and get the secure URL
+            const uploadedFile = await cloudinary.uploader.upload(req.file.path);
+            imageUrl = uploadedFile.secure_url;
+        }
+
+        // Prepare the project data to be updated (excluding image if not provided)
+        const updatedData = {
+            title: req.body.title,
+            description: req.body.description,
+            location: req.body.location,
+            skills: req.body.skills,
+            ocurrence: req.body.ocurrence,
+            cause: req.body.cause,
+            capacity: req.body.capacity,
+            contactEmail: req.body.contactEmail,
+            tasks: req.body.tasks,
+            latitude: req.body.latitude,
+            longitude: req.body.longitude,
+
+            // Add the image URL if it's available
+            image: imageUrl || req.body.image,
+        };
+
+        // Update the project in the database
+        const updatedProject = await Project.findByIdAndUpdate(
+            projectId,
+            updatedData,
+            {
+                new: true,
+            }
+        );
+
+        if (!updatedProject) {
+            return res.status(404).json({ Error: 'Project not found' });
+        }
+
+        res.status(202).json(updatedProject);
+    } catch (error) {
+        console.log("Error updating project:", error);
+        res.status(500).json({ Error: 'Error updating project' });
+    }
+};
+
+
+
+
 
 
 
@@ -170,6 +223,28 @@ const changeProjectStatusBasedOnDecision = async (req, res) => {
     }
 };
 
+// Volunteers who applied for a specific project
+
+const volunteersForProject = async (req, res) => {
+    try {
+        const projectId = req.params.id;
+
+      // Find the project by its ID and populate the 'volunteers' field to get volunteer details.
+        const project = await Project.findById(projectId).populate('volunteers');
+
+        if (!project) {
+        return res.status(404).json({ error: 'Project not found' });
+        }
+
+      // Extract the volunteer data from the project and send it as a response.
+        const volunteers = project.volunteers;
+
+    return res.json(volunteers);
+    } catch (error) {
+        console.error('Error fetching project volunteers:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+};
 
 
 module.exports = {
@@ -179,5 +254,6 @@ module.exports = {
     applyForProject,
     updateProject,
     deleteProject,
-    changeProjectStatusBasedOnDecision
+    changeProjectStatusBasedOnDecision,
+    volunteersForProject
 };

@@ -1,112 +1,182 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "../axiosInstance";
+
+import { useState } from 'react'
+import {useNavigate} from 'react-router-dom'
+import axios from '../axiosInstance'
+import { AuthContextOrg } from "../context/AuthOrg";
+import { useContext } from "react";
 
 const NewProject = () => {
   const navigate = useNavigate();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [organization, setOrganization] = useState("");
-  const [location, setLocation] = useState("");
-  const [occurrence, setOccurrence] = useState("");
-  const [cause, setCause] = useState("");
-  const [capacity, setCapacity] = useState("");
-  const [contact, setContact] = useState("");
-  const [skills, setSkills] = useState("");
+  const { organization } = useContext(AuthContextOrg);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+// initialization of the state for the input fields
+const [project, setProject] = useState({
+  title: '',
+  description: '',
+  location: '',
+  skills: '',
+  ocurrence: '',
+  cause: '',
+  image: '',
+  capacity: '',
+  contactEmail: '',
+  tasks: '',
+  latitude: '',
+  longitude: '',
+});
 
-    axios
-      .post("/api/projects", {
-        title,
-        description,
-        organization,
-        location,
-        occurrence,
-        cause,
-        capacity,
-        contact,
-        skills,
-      })
-      .then((res) => {
-        console.log(res.data);
-        navigate("/projects");
-      })
-      .catch((e) => console.log(e));
+// function to handle the form submission
+const handleSubmit = (e) => {
+e.preventDefault();
+// destructuring values of the post state
+const {
+  title,
+  description,
+  location,
+  skills,
+  ocurrence,
+  cause,
+  capacity,
+  contactEmail,
+  tasks,
+  latitude,
+  longitude,
+  image
+} = project;
+
+const formData = new FormData();
+formData.append('title', title);
+formData.append('description', description);
+formData.append('location', location);
+formData.append('skills', skills);
+formData.append('ocurrence', ocurrence);
+formData.append('cause', cause);
+formData.append('capacity', capacity);
+formData.append('contactEmail', contactEmail);
+formData.append('tasks', tasks);
+formData.append('latitude', latitude);
+formData.append('longitude', longitude);
+formData.append('organizationId', organization?.organizationId);
+formData.append('image', image);
+
+axios
+.post(`/api/projects`, formData)
+.then(res => navigate('/projects'))
+.catch(e => console.log(e));
+};
+
+
+// function to handle changes in the form input fields
+  const handleChange = (e) => {
+    if (e.target.name === 'image') {
+      // If the input is an image, set the selected image file
+      setProject({ ...project, image: e.target.files[0] });
+    } else {
+      // If the input is not an image, update the state with the new value
+      setProject({ ...project, [e.target.name]: e.target.value });
+    }
   };
 
   return (
-    <div>
-      <h2>Add Project</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="">Title</label>
-        <input
-          type="text"
-          name="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-        <label htmlFor="">Description</label>
-        <textarea
-          name="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <label htmlFor="">Organization</label>
-        <input
-          type="text"
-          name="organization"
-          value={organization}
-          onChange={(e) => setOrganization(e.target.value)}
-        />
-        <label htmlFor="">Location</label>
-        <input
-          type="text"
-          name="location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
-        <label htmlFor="">Occurrence</label>
-        <input
-          type="text"
-          name="occurrence"
-          value={occurrence}
-          onChange={(e) => setOccurrence(e.target.value)}
-        />
-        <label htmlFor="">Cause</label>
-        <input
-          type="text"
-          name="cause"
-          value={cause}
-          onChange={(e) => setCause(e.target.value)}
-        />
-        <label htmlFor="">Capacity</label>
-        <input
-          type="text"
-          name="capacity"
-          value={capacity}
-          onChange={(e) => setCapacity(e.target.value)}
-        />
-        <label htmlFor="">Contact</label>
-        <input
-          type="text"
-          name="contact"
-          value={contact}
-          onChange={(e) => setContact(e.target.value)}
-        />
-        <label htmlFor="">Skills</label>
-        <input
-          type="text"
+    <div className='max-w-full mx-auto px-4 py-12 flex flex-col items-center'>
+    <h2 className='text-orange-600 font-bold py-12 after:text-4xl sm:text-3xl md:text-3xl lg:text-4xl text-center'> Welcome 
+      <span className='text-cyan-500'> {organization.organizationName}</span> 
+      <br />
+      Please Add your Project </h2>
+        <form className='flex flex-col max-w-[600px] w-full' onSubmit={handleSubmit}>
+      
+          <label htmlFor="title">Title</label>
+          <input type="text"
+          className='bg-[#ccd6f6] my-1 p-2' 
+          name="title" 
+          value={project?.title}
+          onChange={handleChange} />
+
+          <label htmlFor="location">Location</label>
+          <input type="text"
+          className='bg-[#ccd6f6] my-1 p-2'
+          name="location" 
+          value={project.location}
+          onChange={handleChange} />
+
+          <label htmlFor="skills">Skills</label>
+          <input type="text"
+          className='bg-[#ccd6f6] my-1 p-2'
           name="skills"
-          value={skills}
-          onChange={(e) => setSkills(e.target.value)}
+          value={project.skills}
+          onChange={handleChange} />
+
+          <label htmlFor="tasks">Tasks</label>
+          <input type="text"
+          className='bg-[#ccd6f6] my-1 p-2'
+          name="tasks"
+          value={project.tasks}
+          onChange={handleChange} />
+
+          <label htmlFor="ocurrence">Time required</label>
+          <input type="text"
+          className='bg-[#ccd6f6] my-1 p-2'
+          name="ocurrence" 
+          value={project.ocurrence} 
+          onChange={handleChange} />
+
+          <label htmlFor="cause">Cause</label>
+          <input type="text"
+          className='bg-[#ccd6f6] my-1 p-2'
+          name="cause" 
+          value={project.cause}
+          onChange={handleChange} />
+
+          <label htmlFor="capacity">Capacity</label>
+          <input type="number"
+          className='bg-[#ccd6f6] my-1 p-2'
+          name="capacity"
+          value={project.capacity}
+          onChange={handleChange} />
+
+          <label htmlFor="contactEmail">Contact</label>
+          <input type="email"
+          className='bg-[#ccd6f6] my-1 p-2'
+          name="contactEmail" 
+          value={project.contactEmail} 
+          onChange={handleChange} />
+
+          <label htmlFor="latitude">Latitude</label>
+          <input type="number"
+          className='bg-[#ccd6f6] my-1 p-2'
+          name="latitude" 
+          value={project.latitude} 
+          onChange={handleChange} />
+
+          <label htmlFor="longitude">Longitude</label>
+          <input type="number"
+          className='bg-[#ccd6f6] my-1 p-2'
+          name="longitude" 
+          value={project.longitude} 
+          onChange={handleChange} />
+
+        <label>Description:</label>
+        <textarea
+        rows="5"
+        name="description"
+        value={project.description}
+        onChange={handleChange}
+        className='bg-[#ccd6f6]'
         />
-        <button>Add Project</button>
+
+          <label htmlFor="">Image</label>
+          <input type="file"
+          name='image' 
+          accept="image/*"
+          onChange={handleChange} />
+
+         <button 
+          type="submit"
+          className="text-black border-2 bg-green-300 hover:bg-pink-600 hover:border-pink-600 px-4 py-3 my-8 mx-auto flex items-center"
+          >Submit</button>
       </form>
-    </div>
-  );
-};
+  </div>
+  )
+}
 
 export default NewProject;

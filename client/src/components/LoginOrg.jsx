@@ -21,12 +21,12 @@ function LoginOrg() {
   const handleSubmit = (e) => {
     e.preventDefault();
     context.login(organization); // Call the login function from the context
-    navigate("/projects")
+    navigate("/organizations/:id/projects")
   };
 
 // Redirect to homepage if the organization is already authenticated
   if (!context.loading && context.organization) {
-    return <Navigate to="/projects" />;
+    return <Navigate to="/organizations/:id/projects"/>;
   }
 
   //Render the login form if not authenticated
