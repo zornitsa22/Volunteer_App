@@ -8,7 +8,8 @@ const {
   deleteVolunteer,
   getProjectsAppliedByVolunteer, 
   getLoggedinVolunteer,
-  updateVolunteerDecision
+  updateVolunteerDecision,
+  updateVolunteerStatus
 } = require('../controllers/volunteers');
 
 const authenticate = require('../middlewares/auth');
@@ -21,5 +22,6 @@ router.get('/:id/projects', getProjectsAppliedByVolunteer)
 router.put('/:id/update',upload.single('image'), updateVolunteer);
 router.delete('/:id', deleteVolunteer);
 router.post('/api/volunteers/:id/decision', updateVolunteerDecision);
+router.put('/:id/status', updateVolunteerStatus);
 
 module.exports = router;

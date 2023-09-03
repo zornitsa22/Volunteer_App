@@ -87,17 +87,17 @@ const DashboardOrg = () => {
             <h2 className='text-black font-bold text-3xl text-center mb-4'>Dashboard</h2>
             <div>
                   {/* Organization Profile */}
-                  <h3 className="text-3xl">MyProfile</h3>
-                  {organization && (
-                  <div>
-                      <img src={organization.organization.image}
-                      alt="image"
-                      className="h-[150px]"
-                      />
-                      <p>Name: {organization.organization.organizationName}</p>
-                      <p>Email: {organization.organization.email}</p>
-                      <p>About Us: {organization.organization.description}</p>
-                      <p>Contact Person: {organization.organization.contactInfo}</p>
+                    <h3 className="text-3xl">MyProfile</h3>
+                    {organization && (
+                    <div>
+                        <img src={organization.organization.image}
+                        alt="image"
+                        className="h-[150px]"
+                        />
+                        <p>Name: {organization.organization.organizationName}</p>
+                        <p>Email: {organization.organization.email}</p>
+                        <p>About Us: {organization.organization.description}</p>
+                        <p>Contact Person: {organization.organization.contactInfo}</p>
                     </div>
                     )}
             </div> 

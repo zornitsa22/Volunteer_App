@@ -28,6 +28,7 @@ const getVolunteerById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 // Updating an existing Project
 const updateVolunteer = async (req, res) => {
   console.log("update volunteer is calling...")
@@ -80,10 +81,16 @@ const deleteVolunteer = async (req, res) => {
 // Getting all projects applied for by a specific volunteer (My projects)
 const getProjectsAppliedByVolunteer = async (req, res) => {
   try {
-      const volunteerIdToSearch = req.params.volunteerid; 
+
+      const volunteerIdToSearch = req.params.id; 
       
       // Finding all projects where the volunteer's ID is in the 'volunteers' array
-      const appliedProjects = await Project.find({ volunteers: volunteerIdToSearch });
+      const appliedProjects = await Project.find({ volunteers: volunteerIdToSearch })
+      .populate({
+        path: 'volunteers',
+        model: 'Volunteer',
+        select: 'decision status', 
+      });
       
       res.status(200).json(appliedProjects);
   } catch (error) {
@@ -91,6 +98,7 @@ const getProjectsAppliedByVolunteer = async (req, res) => {
       res.status(500).json({ error: 'Error fetching projects applied by volunteer' });
   }
 };
+
 // Function For VOLUNTEER Profile 
 // Function For get logged in VOLUNTEER 
 const getLoggedinVolunteer = async (req, res) => {
@@ -129,6 +137,37 @@ const updateVolunteerDecision = async (req, res) => {
   }
 };
 
+
+//  updating the volunteer status status
+
+const updateVolunteerStatus = async (req, res) => {
+  const { decision } = req.body; // Should be 'Accepted' or 'Denied'
+  const volunteerId = req.params.volunteer._id
+
+  try {
+      const volunteer = await Volunteer.findById(volunteerId);
+
+      if (!volunteer) {
+          return res.status(404).json({ message: 'Volunteer not found' });
+      }
+
+      // Update the volunteer's status based on the decision
+      if (decision === 'Accepted') {
+          volunteer.status = 'Accepted';
+      } else if (decision === 'Denied') {
+          volunteer.status = 'Denied';
+      }
+
+      await volunteer.save(); // Save the updated volunteer status
+
+      res.status(200).json({ message: 'Volunteer status updated', volunteer });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error updating volunteer status' });
+  }
+};
+
+
 module.exports = {
   getAllVolunteers,
   getVolunteerById,
@@ -137,5 +176,6 @@ module.exports = {
   getProjectsAppliedByVolunteer,
   getLoggedinVolunteer,
   updateVolunteerDecision,
+  updateVolunteerStatus
 };
 

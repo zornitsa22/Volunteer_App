@@ -25,6 +25,7 @@ const Header = () => {
   // Determine if a user is logged in by checking either volunteer or organization
   const isLoggedIn = volunteer || organization;
   const isLoggedInOrg = organization 
+  const isLoggedInVol = volunteer
 
   // // Combining loading states from both contexts
   const isLoading = volLoading || orgLoading;
@@ -127,7 +128,7 @@ const Header = () => {
                         to={volunteer ? ("/dashboard/volunteer") : ("/organizations/dashboard/organization")}
                         className="block px-4 py-2 hover:bg-gray-100"
                       >
-                        My Dashboard
+                        Dashboard
                       </Link>
                     </li>
                     <li>
@@ -135,26 +136,28 @@ const Header = () => {
                         to={volunteer ? ("/profile/volunteer") : ("/organizations/profile/organization")}
                         className="block px-4 py-2 hover:bg-gray-100"
                       >
-                        My ProfileS
+                        Profile
                       </Link>
                     </li>
                       
                     <li>
+                      {isLoggedInVol && (
                       <Link
-                        to={volunteer ? ("/projects") : ("/projects/new")}
+                        to={"/projects"}
                         className="block px-4 py-2 hover:bg-gray-100"
                       >
                         Projects
                       </Link>
+                      )}
                     </li>
 
                     <li>
                       {isLoggedInOrg && (
                       <Link
-                        to={"/projects/id:/update"}
+                        to={"/organizations/id:/volunteers"}
                         className="block px-4 py-2 hover:bg-gray-100"
                       >
-                        Update Project
+                        MyVolunteers
                       </Link>
                       )}
                     </li>

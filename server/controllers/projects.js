@@ -59,8 +59,8 @@ const getProjectDetails = async (req, res) => {
     }
 }
 
-// Applying for a project 
-const applyForProject = async (req, res) => {
+// Applying for a project with image handling
+/*const applyForProject = async (req, res) => {
     try {
         // Check if the volunteer has already applied for the project
         const project = await Project.findById(req.params.id).populate('volunteers');
@@ -94,35 +94,54 @@ const applyForProject = async (req, res) => {
         );
         console.log("🚀 ~ file: projects.js:85 ~ applyForProject ~ updatedVolunteer:", updatedVolunteer)
 
-        // Adding the image URLs to the updated projectand saving the update
+        // Adding the image URLs to the updated project and saving the update
         updatedProject.image = imageUrl;
         await updatedProject.save();
         res.status(200).json({ updatedProject, updatedVolunteer });
     } catch (error) {
-        console.log("🚀 ~ file: projects.js:91 ~ applyForProject ~ error:", error)
+        console.log("🚀 ~ file: projects.js:102 ~ applyForProject ~ error:", error)
+        res.status(500).json({ Error: 'Error applying for the project' });
+    }
+};*/
+
+// Applying for a project (Updated for no image upload)
+const applyForProject = async (req, res) => {
+    try {
+        // Check if the volunteer has already applied for the project
+        const project = await Project.findById(req.params.id).populate('volunteers');
+        const volunteerAlreadyApplied = project.volunteers.some(
+            (volunteer) => volunteer._id.equals(req.volunteer._id)
+        );
+
+        if (volunteerAlreadyApplied) {
+            return res.status(400).json({ Error: 'Volunteer has already applied for this project' });
+        }
+
+        // Update the project Document to add the volunteer's ID to the 'volunteers' array
+        const updatedProject = await Project.findByIdAndUpdate(
+            req.params.id,
+            { $push: { volunteers: req.volunteer._id } },
+            { new: true }
+        ).populate('volunteers');
+        console.log("Updated Project:", updatedProject);
+
+        // Update the volunteer document to add the project's ID to the 'projects' array
+        const updatedVolunteer = await Volunteer.findByIdAndUpdate(
+            req.volunteer._id,
+            { $push: { projects: updatedProject._id } },
+            { new: true }
+        );
+        console.log("Updated Volunteer:", updatedVolunteer);
+
+        res.status(200).json({ updatedProject, updatedVolunteer });
+    } catch (error) {
+        console.error("Error applying for the project:", error);
         res.status(500).json({ Error: 'Error applying for the project' });
     }
 };
 
-// Updating an existing Project
-/*const updateProject = async (req, res) => {
-    try {
-    const updatedProject = await Project.findByIdAndUpdate(
-        req.params.id, 
-        req.body, 
-        {
-        new: true,
-    });
-    if(!updatedProject) {
-        res.status(404).json({Error: 'Project not Found!'})
-    }
-    res.status(202).json(updatedProject)
-    } catch(error) {
-    console.log("🚀 ~ file: projects.js:122 ~ updateProject ~ error:", error)
-    res.status(500).json({Error:'Error updating project'})  
-    }
-}; */
 
+// Updating an existing Project
 const updateProject = async (req, res) => {
     try {
         const projectId = req.params.id;
@@ -172,11 +191,6 @@ const updateProject = async (req, res) => {
         res.status(500).json({ Error: 'Error updating project' });
     }
 };
-
-
-
-
-
 
 
 // deleting an existing Project

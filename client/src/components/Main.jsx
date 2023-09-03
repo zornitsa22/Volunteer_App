@@ -20,6 +20,7 @@ import DashboardVol from "../Pages/DashboardVol";
 import ProjectOrg from "../Pages/ProjectOrg";
 import ProjectVol from "../Pages/ProjectVol";
 import Contact from "../Pages/Contact";
+import VolunteerOrg from "../Pages/VolunteerOrg";
 
 function Main() {
   return (
@@ -37,6 +38,7 @@ function Main() {
           <Route path="dashboard/organization" element={<DashboardOrg />} />
           <Route path="profile/organization" element={<ProfileOrg />} />
           <Route path=":id/projects" element={<ProjectOrg />} />
+          <Route path=":id/volunteers" element={<VolunteerOrg />} />
         </Route>
 
         <Route path="/volunteers" element={<ProtectedRoute />}>

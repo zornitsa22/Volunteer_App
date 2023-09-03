@@ -1,6 +1,7 @@
 const cloudinary = require('../config/cloudinary');
 const Organization = require("../models/organization");
 const Project = require('../models/project')
+const Volunteer = require('../models/volunteer');
 
 const getAllOrganizations = async (req, res) => {
   console.log("get organization is calling......");
@@ -89,9 +90,6 @@ const deleteOrganization = async (req, res) => {
 // Get all projects created by a specific organization (My projects)
 const getProjectsCreatedByOrganization = async (req, res) => {
   try {
-    const organizationId = req.params.organizationId; 
-    console.log("Organization ID:", organizationId)
-
     const projects = await Project.find({organizationId: req.organization._id });
 
     res.status(200).json(projects);
@@ -100,6 +98,29 @@ const getProjectsCreatedByOrganization = async (req, res) => {
     res.status(500).json({ error: 'Error fetching projects created by organization' });
   }
 };
+
+// list of volunteers for organization
+const getVolunteersByOrganization = async (req, res) => {
+  try {
+   
+    // Find all projects created by the organization
+    const orgaProjects = await Project.find({organizationId: req.organization._id });
+    console.log('Projects', orgaProjects)
+
+    // Fetch volunteers who have applied for projects created by the organization
+    const volunteers = await Volunteer.find({ 
+      'projects': { $in: orgaProjects.map((p) => p._id) },
+    }).populate('projects');
+
+      console.log('Volunteers:', volunteers);
+
+    res.status(200).json(volunteers);
+  } catch (error) {
+    console.error('Error fetching volunteers by organization', error);
+    res.status(500).json({ error: 'Error fetching volunteers by organization' });
+  }
+};
+
 
 // projectdetails for a specific organization
 
@@ -120,7 +141,7 @@ const getProjectByIdCreatedByOrganization = async (req, res) => {
   }
 } 
 
-//  updating the decision for a project application
+//  updating the decision for a project and volunteer status application
 
 const updateProjectDecision = async (req, res) => {
     const { decision } = req.body; // Should be 'Accepted' or 'Denied'
@@ -133,12 +154,19 @@ const updateProjectDecision = async (req, res) => {
           return res.status(404).json({ message: 'Project not found' });
       }
 
+      // Call the function to update the volunteer's status
+      await updateVolunteerStatus(projectId, decision);
+
+
       res.status(200).json({ message: 'Project decision updated', project: updatedProject });
   } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Error updating project decision' });
   }
 };
+
+
+
 // Function For get logged in Organization:::
 const getLoggedinOrganization = async (req, res) => {
   console.log("we are calling get loggein...")
@@ -162,6 +190,7 @@ module.exports = {
   deleteOrganization,
   getProjectByIdCreatedByOrganization,
   getProjectsCreatedByOrganization,
+  getVolunteersByOrganization, 
   updateProjectDecision,
   getLoggedinOrganization,
 };
