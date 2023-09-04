@@ -12,6 +12,7 @@ const {
   getProjectByIdCreatedByOrganization,
   updateProjectDecision,
   getLoggedinOrganization,
+  getVolunteersByOrganization, 
 } = require("../controllers/organizations");
 
 const authenticate = require('../middlewaresOrga/authOrga');
@@ -30,5 +31,6 @@ router.delete("/:id", deleteOrganization);
 router.get('/:id/projects', getProjectsCreatedByOrganization);
 router.get('/:id/projects/:projectId', getProjectByIdCreatedByOrganization);
 router.put('/:id/projects/:id/decision', updateProjectDecision);
+router.get('/:id/volunteers', getVolunteersByOrganization);
 
 module.exports = router;
