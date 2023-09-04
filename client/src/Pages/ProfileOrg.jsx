@@ -12,12 +12,11 @@ const ProfileOrg = () => {
       .get(`/api/organizations/profile`)
       .then(res => setOrganization(res.data),
       console.log("setOrganization",setOrganization))
-      // .then(res => setVolunteer("data data",res.data));
       .catch(e => console.log(e.response?.data?.message));
   }, []);
 
   return (<>
-  <div>Profile Organization</div>
+  <p>MyProfile</p>
   {organization && (
     <div>
 
@@ -26,13 +25,13 @@ const ProfileOrg = () => {
                   alt="image"
                   className="h-[200px]"
                 />
-    <label>Organization Name:</label><p>{organization.organization.organizationName}</p>
+    <p>Name: {organization.organization.organizationName}</p>
 
-    <label>Organization Contact Email:</label><p>{organization.organization.email}</p>
+    <p>Email: {organization.organization.email}</p>
 
-    <label>Organization Description:</label><p>{organization.organization.description}</p>
+    <p>Description: {organization.organization.description}</p>
 
-    <label>Organization ContactInformation:</label><p>{organization.organization.contactInfo}</p>
+    <p>ContactPerson: {organization.organization.contactInfo}</p>
    
   </div>
   )
