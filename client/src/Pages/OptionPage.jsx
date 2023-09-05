@@ -47,12 +47,12 @@ const OptionPage = () => {
               <div className="opacity-0 group-hover:opacity-100 ">
                 <div className="pt-8 text-center">
                   <a href="/register/volunteer">
-                    <button className="text-center rounded-lg px-4 py-3 m-2 bg-[#A9BE93] hover:bg-[#2A4434] text-white font-bold text-lg">
+                    <button className="text-center rounded-lg px-4 py-3 m-2 bg-[#72ac5d] hover:bg-[#2A4434] text-white font-bold text-lg">
                       Register
                     </button>
                   </a>
                   <a href="/login/volunteer">
-                    <button className="text-center rounded-lg px-4 py-3 m-2 bg-[#A9BE93] hover:bg-[#2A4434] text-white marker:font-bold text-lg">
+                    <button className="text-center rounded-lg px-4 py-3 m-2 bg-[#72ac5d] hover:bg-[#2A4434] text-white marker:font-bold text-lg">
                       Login
                     </button>
                   </a>
@@ -68,12 +68,12 @@ const OptionPage = () => {
               <div className="opacity-0 group-hover:opacity-100 ">
                 <div className="pt-8 text-center">
                   <a href="/register/organization">
-                    <button className="text-center text-white rounded-lg px-4 py-3 m-2 bg-[#A9BE93] hover:bg-[#2A4434] text-gray-700 font-bold text-lg">
+                    <button className="text-center text-white rounded-lg px-4 py-3 m-2 bg-[#72ac5d] hover:bg-[#2A4434] text-gray-700 font-bold text-lg">
                       Register
                     </button>
                   </a>
                   <a href="/login/organization">
-                    <button className="text-center  text-white rounded-lg px-4 py-3 m-2 bg-[#A9BE93] hover:bg-[#2A4434] selection: text-gray-700 font-bold text-lg">
+                    <button className="text-center  text-white rounded-lg px-4 py-3 m-2 bg-[#72ac5d] hover:bg-[#2A4434] selection: text-gray-700 font-bold text-lg">
                       Login
                     </button>
                   </a>

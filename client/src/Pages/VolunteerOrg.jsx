@@ -74,9 +74,10 @@ const VolunteerOrg = () => {
                       </div>
                     ))}
                   </td>
+                  {/* move perticular volunteer profile page */}
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <Link
-                      to={`/volunteer/${volunteer._id}`}
+                      to={`/volunteers/${volunteer._id}`}
                       className="text-green-800 hover:underline"
                     >
                       View Profile

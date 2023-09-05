@@ -21,6 +21,8 @@ import ProjectOrg from "../Pages/ProjectOrg";
 import ProjectVol from "../Pages/ProjectVol";
 import Contact from "../Pages/Contact";
 import VolunteerOrg from "../Pages/VolunteerOrg";
+import VolProfileFromList from "../Pages/VolProfileFromList";
+import UpdateProfileVol from "../Pages/UpdateProfileVol";
 
 function Main() {
   return (
@@ -45,6 +47,7 @@ function Main() {
           <Route path="dashboard/volunteer" element={<DashboardVol />} />
           <Route path="profile/volunteer" element={<ProfileVol />} />
           <Route path=":id/projects" element={<ProjectVol />} />
+          <Route path="profile/update" element={<UpdateProfileVol />} />
         </Route>
 
         <Route path="/home" element={<Home />} />
@@ -56,10 +59,11 @@ function Main() {
         <Route path="/register/volunteer" element={<RegVol />} />
         <Route path="/login/organization" element={<LoginOrg />} />
         <Route path="/register/organization" element={<RegOrg />} />
-        
+
         <Route path="/profile/volunteer" element={<ProfileVol />} />
-        
+
         <Route path="/dashboard/volunteer" element={<DashboardVol />} />
+        <Route path="/volunteers/:id" element={<VolProfileFromList />} />
       </Routes>
     </main>
   );
