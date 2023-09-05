@@ -29,37 +29,52 @@ const getVolunteerById = async (req, res) => {
   }
 };
 
-// Updating an existing Project
+/// Updating an existing Project
 const updateVolunteer = async (req, res) => {
   console.log("update volunteer is calling...")
+  const VolunteerId =  req.volunteer._id;
   try {
 
-    // Handling the file upload first using multer and cloudinary
-    const uploadedFile = await cloudinary.uploader.upload(req.file.path);
+    // Check if a new image file was uploaded
+    let imageUrl = null;
+    if (req.file) {
+        // Upload the new image to Cloudinary and get the secure URL
+        const uploadedFile = await cloudinary.uploader.upload(req.file.path);
+        imageUrl = uploadedFile.secure_url;
+    }
 
-    // Extracting the secure URLs of the uploaded files
-    const imageUrl = uploadedFile.secure_url;
+     // Prepare the Volunteert data to be updated (excluding image if not provided)
+     const updatedData = {
+      volunteername: req.body.volunteername,
+      description: req.body.description,
+      email: req.body.email,
+      skills: req.body.skills,
+      contactInfo: req.body.contactInfo,
+    
+    
+      // Add the image URL if it's available
+      image: imageUrl || req.body.image,
+  };
+
 
     const updatedVolunteer = await Volunteer.findByIdAndUpdate(
-        req.params.id, 
-        req.body, 
-        //req.file.path,
+      VolunteerId,
+      updatedData, 
        {
         new: true,
        });
-    console.log("🚀 ~ file: volunteers.js:40 ~ updateVolunteer ~ updatedVolunteer:", updatedVolunteer)
-    // Adding the image URLs to the updated projectand saving the update
-    updatedVolunteer.image = imageUrl;
   
   if(!updatedVolunteer) {
       res.status(404).json({Error: 'updatedVolunteer not Found!'})
   }
   res.status(202).json(updatedVolunteer)
+
   } catch(error) {
   console.log("🚀 ~ file: volunteers.js:45 ~ updateVolunteer ~ error:", error)
   res.status(500).json({Error:'Error updating volunteer'})  
   }
 }; 
+
 
 const deleteVolunteer = async (req, res) => {
   try {
