@@ -1,23 +1,22 @@
-
-import axios from '../axiosInstance';
-import { Link, useParams } from 'react-router-dom';
-import { GrLocation } from 'react-icons/gr';
+import axios from "../axiosInstance";
+import { Link, useParams } from "react-router-dom";
+import { GrLocation } from "react-icons/gr";
 import { AuthContextOrg } from "../context/AuthOrg";
 import { useContext, useState, useEffect } from "react";
-
+import HeroOrganization from "../assets/HeroOrganization.png";
 
 const ProjectOrg = () => {
   const { id } = useParams();
   const [projects, setProjects] = useState(null);
   const { organization } = useContext(AuthContextOrg);
-  
+
   // Function to fetch the list of Projects from the server
   const fetchProjects = async () => {
     try {
       const response = await axios.get(`/api/organizations/${id}/projects`);
       setProjects(response.data);
     } catch (error) {
-      console.error('Error fetching projects:', error);
+      console.error("Error fetching projects:", error);
     }
   };
 
@@ -27,14 +26,25 @@ const ProjectOrg = () => {
   }, []);
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-[#d3e7cb] min-h-screen">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white py-16 text-center">
+      <div
+        className="bg-cover bg-center bg-no-repeat py-20"
+        style={{
+          backgroundImage: `url(${HeroOrganization})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         <div className="container mx-auto">
-          <h1 className="text-4xl font-semibold mb-4">
-            Welcome, <span className='text-blue-500'> {organization.organizationName}!</span>
+          <h1 className="text-4xl font-semibold mb-4 text-center text-white">
+            Welcome,{" "}
+            <span className="text-white font-bold">
+              {" "}
+              {organization.organizationName}!
+            </span>
           </h1>
-          <p className="text-lg mb-8">
+          <p className="text-lg mb-8 text-center text-white">
             Explore and manage your projects.
           </p>
         </div>
@@ -45,7 +55,10 @@ const ProjectOrg = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {projects &&
             projects.map((project) => (
-              <div key={project._id} className="bg-white rounded-md overflow-hidden shadow-md">
+              <div
+                key={project._id}
+                className="bg-white rounded-md overflow-hidden shadow-md"
+              >
                 <Link to={`/projects/${project._id}`}>
                   <img
                     src={project.image}
@@ -54,7 +67,7 @@ const ProjectOrg = () => {
                   />
                   <div className="p-4">
                     <div className="mb-2">
-                      <h3 className="text-xl font-semibold text-blue-600">
+                      <h3 className="text-xl font-semibold text-green-800">
                         {project.title}
                       </h3>
                       <div className="flex items-center text-gray-600 text-lg">
@@ -64,7 +77,7 @@ const ProjectOrg = () => {
                     </div>
                     <Link
                       to={`/projects/${project._id}`}
-                      className="block text-center text-blue-500 hover:underline mt-2"
+                      className="block text-center text-green-700 hover:underline mt-2"
                     >
                       More
                     </Link>
