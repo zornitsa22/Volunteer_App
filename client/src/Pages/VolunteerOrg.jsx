@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from '../axiosInstance';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axios from "../axiosInstance";
+import { useParams, Link } from "react-router-dom";
 
 const VolunteerOrg = () => {
   const { id } = useParams();
@@ -17,7 +17,7 @@ const VolunteerOrg = () => {
         setVolunteers(fetchedVolunteers);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching volunteers by organization', error);
+        console.error("Error fetching volunteers by organization", error);
         setError(error);
         setLoading(false);
       }
@@ -53,7 +53,10 @@ const VolunteerOrg = () => {
             </thead>
             <tbody>
               {volunteers.map((volunteer) => (
-                <tr key={volunteer._id} className="border-b border-gray-200 hover:bg-gray-100">
+                <tr
+                  key={volunteer._id}
+                  className="border-b border-gray-200 hover:bg-gray-100"
+                >
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">
                     {volunteer.volunteername}
                   </td>
@@ -74,7 +77,7 @@ const VolunteerOrg = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <Link
                       to={`/volunteer/${volunteer._id}`}
-                      className="text-blue-500 hover:underline"
+                      className="text-green-800 hover:underline"
                     >
                       View Profile
                     </Link>

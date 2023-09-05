@@ -6,8 +6,19 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import axios from "../axiosInstance";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { FaMapMarkerAlt, FaTasks, FaCalendarAlt, FaHandsHelping, FaUser, FaTrash, FaEdit, FaEnvelope, FaBullseye, FaUsers } from "react-icons/fa";
-
+import {
+  FaMapMarkerAlt,
+  FaTasks,
+  FaCalendarAlt,
+  FaHandsHelping,
+  FaUser,
+  FaTrash,
+  FaEdit,
+  FaEnvelope,
+  FaBullseye,
+  FaUsers,
+} from "react-icons/fa";
+import HeroPicture from "../assets/projectsdetailsHero.png";
 import "leaflet/dist/leaflet.css";
 
 // Create a custom icon for the marker
@@ -55,79 +66,90 @@ const ProjectDetails = () => {
   };
 
   return (
-    <div className="bg-blue-100 text-gray-800 min-h-screen">
-      <div className="bg-gradient-to-b from-blue-400 via-pink-400 to-red-400 py-8">
+    <div className="bg-white text-gray-800 min-h-screen">
+      <div
+        className="bg-cover bg-center bg-no-repeat py-20"
+        style={{
+          backgroundImage: `url(${HeroPicture})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         <div className="container mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold">
-            Explore and Volunteer <FaHandsHelping className="inline-block ml-2 text-3xl" />
+          <h1 className="text-white text-4xl md:text-6xl font-bold">
+            Explore and Volunteer
           </h1>
-          <p className="mt-4 text-lg md:text-2xl">
+          <p className="text-white mt-4 text-lg md:text-2xl">
             Join us in making a difference.
           </p>
         </div>
       </div>
+
       {error && <p style={{ color: "red" }}>{error}</p>}
+
       {project && (
-        <div className="max-w-screen-xl mx-auto px-4 py-12 relative">
-          <img
-            src={project.image}
-            alt="image"
-            className="w-full max-h-96 object-cover rounded-lg"
-          />
-          <h2 className="text-orange-600 font-bold pt-6 text-4xl text-center">
-            {project.title}
-          </h2>
-          <p className="text-2xl font-bold py-4 text-center">
-            {project.description}
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="max-w-screen-xl mx-auto px-4 py-12">
+          <div className="text-center md:text-left">
+            <h2 className="text-[#2A4434] text-center font-bold text-4xl">
+              {project.title}
+            </h2>
+            <p className="text-2xl font-bold py-2">{project.description}</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
             <div>
-              <p className="text-lg font-semibold">
-                <span className="text-orange-600 mr-2">
-                  <FaTasks className="inline-block" />
-                </span>
-                Tasks:
-                <span className="text-gray-700 ml-2">{project.tasks}</span>
-              </p>
-              <p className="text-lg font-semibold">
-                <span className="text-orange-600 mr-2">
-                  <FaMapMarkerAlt className="inline-block" />
-                </span>
-                Location:
-                <span className="text-gray-700 ml-2">{project.location}</span>
-              </p>
-              <p className="text-lg font-semibold">
-                <span className="text-orange-600 mr-2">
-                  <FaCalendarAlt className="inline-block" />
-                </span>
-                When:
-                <span className="text-gray-700 ml-2">{project.ocurrence}</span>
-              </p>
+              <img
+                src={project.image}
+                alt="Project"
+                className="w-full h-auto rounded-lg shadow-md"
+              />
             </div>
             <div>
-              <p className="text-lg font-semibold">
-                <span className="text-orange-600 mr-2">
-                  <FaBullseye className="inline-block" />
-                </span>
-                Cause:
-                <span className="text-gray-700 ml-2">{project.cause}</span>
-              </p>
-              <p className="text-lg font-semibold">
-                <span className="text-orange-600 mr-2">
-                  <FaUsers className="inline-block" />
-                </span>
-                Capacity:
-                <span className="text-gray-700 ml-2">{project.capacity}</span>
-              </p>
-              <p className="text-lg font-semibold">
-                <span className="text-orange-600 mr-2">
-                  <FaEnvelope className="inline-block" />
-                </span>
-                Contact:
-                <span className="text-gray-700 ml-2">
-                  {project.contactEmail}
-                </span>
-              </p>
+              <div className="space-y-4">
+                <div className="flex items-center">
+                  <FaTasks className="text-[#2A4434] text-xl inline-block mr-2 w-8 h-8" />
+                  <p className="text-lg font-semibold">
+                    Tasks:{" "}
+                    <span className="text-gray-700">{project.tasks}</span>
+                  </p>
+                </div>
+                <div className="flex items-center">
+                  <FaMapMarkerAlt className="text-[#2A4434] text-xl inline-block mr-2" />
+                  <p className="text-lg font-semibold">
+                    Location:{" "}
+                    <span className="text-gray-700">{project.location}</span>
+                  </p>
+                </div>
+                <div className="flex items-center">
+                  <FaCalendarAlt className="text-[#2A4434] text-xl inline-block mr-2" />
+                  <p className="text-lg font-semibold">
+                    When:{" "}
+                    <span className="text-gray-700">{project.ocurrence}</span>
+                  </p>
+                </div>
+                <div className="flex items-center">
+                  <FaBullseye className="text-[#2A4434] text-xl inline-block mr-2" />
+                  <p className="text-lg font-semibold">
+                    Cause:{" "}
+                    <span className="text-gray-700">{project.cause}</span>
+                  </p>
+                </div>
+                <div className="flex items-center">
+                  <FaUsers className="text-[#2A4434] text-xl inline-block mr-2" />
+                  <p className="text-lg font-semibold">
+                    Capacity:{" "}
+                    <span className="text-gray-700">{project.capacity}</span>
+                  </p>
+                </div>
+                <div className="flex items-center">
+                  <FaEnvelope className="text-[#2A4434] text-xl inline-block mr-2" />
+                  <p className="text-lg font-semibold">
+                    Contact:{" "}
+                    <span className="text-gray-700">
+                      {project.contactEmail}
+                    </span>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
           <div className="flex justify-center py-6">
@@ -157,7 +179,7 @@ const ProjectDetails = () => {
             {isLoggedInVol && (
               <Link
                 to={`/projects/${id}/apply`}
-                className="bg-green-500 hover:bg-green-600 text-white font-semibold text-lg py-2 px-4 rounded"
+                className="bg-[#A9BE93] hover:bg-[#2A4434] text-white font-semibold text-lg py-2 px-4 rounded"
               >
                 Apply
               </Link>
@@ -166,13 +188,13 @@ const ProjectDetails = () => {
               <>
                 <button
                   onClick={handleDelete}
-                  className="bg-red-500 hover:bg-red-600 text-white font-semibold text-lg py-2 px-4 rounded"
+                  className="bg-red-700 hover:bg-red-600 text-white font-semibold text-lg py-2 px-4 rounded"
                 >
                   Delete <FaTrash className="inline-block ml-2" />
                 </button>
                 <Link
                   to={`/projects/${id}/update`}
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-semibold text-lg py-2 px-4 rounded"
+                  className="bg-[#A9BE93] hover:bg-[#2A4434] text-white font-semibold text-lg py-2 px-4 rounded"
                 >
                   Update <FaEdit className="inline-block ml-2" />
                 </Link>

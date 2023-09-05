@@ -1,20 +1,30 @@
 import { Link } from "react-router-dom";
-import Logo1 from "../assets/Logo1.png";
+import Logo2 from "../assets/Logo2.png";
 import { AuthContextOrg } from "../context/AuthOrg";
 import { AuthContextVol } from "../context/AuthVol";
 import { useContext, useEffect, useState } from "react";
-import { FaUser, FaHome, FaHandHoldingHeart, FaInfoCircle, FaPhone } from "react-icons/fa";
+import {
+  FaUser,
+  FaHome,
+  FaHandHoldingHeart,
+  FaInfoCircle,
+  FaPhone,
+  FaHeart,
+} from "react-icons/fa";
 import { MdExitToApp } from "react-icons/md";
 import { HiMenuAlt1 } from "react-icons/hi";
+import namePic from "../assets/nameVol.png";
 
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const { volunteer, logout, loading: volLoading } = useContext(AuthContextVol);
-  const { organization, Logout, loading: orgLoading } = useContext(
-    AuthContextOrg
-  );
+  const {
+    organization,
+    Logout,
+    loading: orgLoading,
+  } = useContext(AuthContextOrg);
 
   const handleLogout = () => {
     if (volunteer) {
@@ -41,8 +51,12 @@ const Header = () => {
       <div className="flex items-center justify-between py-4 px-8">
         <div className="flex items-center">
           <Link to="/" className="flex items-center space-x-2 text-gray-800">
-            <img src={Logo1} alt="Logo" className="h-12 w-12 mr-3" />
-            <p className="text-xl font-bold font-montserrat">VOL</p>
+            <img src={Logo2} alt="Logo" className="h-12 w-12 mr-3" />
+            <img
+              src={namePic}
+              alt="Name"
+              style={{ height: "auto", width: "70px" }}
+            />
           </Link>
         </div>
 
@@ -94,7 +108,10 @@ const Header = () => {
 
             {!isLoggedIn && (
               <li>
-                <Link to="/login" className="text-gray-800 hover:text-gray-400 mr-4 flex items-center">
+                <Link
+                  to="/login"
+                  className="text-gray-800 hover:text-gray-400 mr-4 flex items-center"
+                >
                   <FaUser className="mr-2" /> Log In
                 </Link>
               </li>
@@ -103,20 +120,27 @@ const Header = () => {
               {/* Toggle Dropdown */}
               {!isLoggedIn ? (
                 <button className="text-gray-800 hover:text-gray-400 focus:outline-none">
-                  <FaUser size={menuIconSize} />
+                  <FaHeart size={menuIconSize} />
                 </button>
               ) : (
-                <button onClick={toggleDropdown} className="text-orange-400 font-bold">
+                <button
+                  onClick={toggleDropdown}
+                  className="text-[#2A4434] font-bold"
+                >
                   {volunteer?.volunteername || organization?.organizationName}
                 </button>
               )}
 
               {showDropdown && (
-                <div className="bg-white divide-y divide-gray-100 rounded-lg shadow-md z-10">
+                <div className="bg-white divide-y divide-gray-100 rounded-lg shadow-md z-10 absolute right-0 mt-2">
                   <ul className="py-2 text-sm text-gray-700">
                     <li>
                       <Link
-                        to={volunteer ? "/dashboard/volunteer" : "/organizations/dashboard/organization"}
+                        to={
+                          volunteer
+                            ? "/dashboard/volunteer"
+                            : "/organizations/dashboard/organization"
+                        }
                         className="block px-4 py-2 hover:bg-gray-100 flex items-center"
                       >
                         <FaUser className="mr-2" /> Dashboard
@@ -195,7 +219,10 @@ const Header = () => {
                     Sign In
                   </button>
                 ) : (
-                  <button onClick={toggleDropdown} className="block px-4 py-2 hover:bg-gray-100 flex items-center">
+                  <button
+                    onClick={toggleDropdown}
+                    className="block px-4 py-2 hover:bg-gray-100 flex items-center"
+                  >
                     {volunteer?.volunteername || organization?.organizationName}
                   </button>
                 )}
@@ -205,7 +232,11 @@ const Header = () => {
                     <ul className="py-2 text-sm text-gray-700">
                       <li>
                         <Link
-                          to={volunteer ? "/dashboard/volunteer" : "/organizations/dashboard/organization"}
+                          to={
+                            volunteer
+                              ? "/dashboard/volunteer"
+                              : "/organizations/dashboard/organization"
+                          }
                           className="block px-4 py-2 hover:bg-gray-100 flex items-center"
                         >
                           <FaUser className="mr-2" /> Dashboard
