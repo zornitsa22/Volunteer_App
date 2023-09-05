@@ -1,168 +1,60 @@
-import { useState, useEffect } from "react";
-import axios from '../axiosInstance';
-import { Link, useParams } from 'react-router-dom';
+
+import { Link } from 'react-router-dom';
+import VolunteerOrg from './VolunteerOrg';
+import { AuthContextOrg } from "../context/AuthOrg";
+import { useContext } from "react";
 
 const DashboardOrg = () => {
-    const { id } = useParams();
-    const [projects, setProjects] = useState(null);
-    const [organization, setOrganization] = useState(null);
-    const [projectVolunteers, setProjectVolunteers] = useState([]);
-    const [selectedProjectId, setSelectedProjectId] = useState(null);
-    const [selectedVolunteerId, setSelectedVolunteerId] = useState(null);
-    const [projectDecision, setProjectDecision] = useState("Pending");
-    const [volunteerDecision, setVolunteerDecision] = useState("Pending");
-    const [volunteerStatus, setVolunteerStatus] = useState("Applied");
+    const { organization } = useContext(AuthContextOrg);
 
-    // Function to fetch the list of Projects from the server
-    const fetchProjects = async () => {
-        try {
-            const response = await axios.get(`/api/organizations/${id}/projects`);
-            setProjects(response.data);
-        } catch (error) {
-            console.log("Error fetching projects:", error);
-        }
-    }
 
-    // Function to fetch the organization profile
-    const fetchOrganizationProfile = async () => {
-        try {
-            const response = await axios.get(`/api/organizations/profile`);
-            setOrganization(response.data);
-        } catch (error) {
-            console.log("Error fetching organization profile:", error);
-        }
-    }
+  return (
+    <div className="bg-gradient-to-r from-emerald-400 to-cyan-400 min-h-screen">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-r from-fuchsia-500 to-cyan-500 text-white py-16 text-center">
+        <h1 className="text-4xl font-semibold">Welcome, <span className='text-orange-500'> {organization.organizationName}!</span></h1>
+        <p className="text-lg mt-4">This is your dashboard.</p>
+      </div>
 
-    // Function to fetch the list of volunteers for a specific project
-    const fetchVolunteersForProject = async () => {
-        try {
-            const response = await axios.get(`/api/projects/${id}/volunteers`);
-            setProjectVolunteers(response.data);
-        } catch (error) {
-            console.log("Error fetching project volunteers:", error);
-        }
-    }
+      {/* Main Content */}
+      <div className="container mx-auto py-8 px-4">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          {/* Create New Project Card */}
+          <div className="bg-green-500 p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold text-white mb-4">Create New Projects</h2>
+            <p className="text-gray-100">
+              Start new volunteer projects and make a difference in your community.
+            </p>
+            <Link
+              to="/projects/new"
+              className="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-600 inline-block"
+            >
+              Create Project
+            </Link>
+          </div>
 
-    // Function to handle selecting a project
-    const handleProjectSelect = (projectId) => {
-        setSelectedProjectId(projectId);
-        setSelectedVolunteerId(null); // Reset selected volunteer when changing projects
-        setVolunteerDecision("Pending");
-        setVolunteerStatus("Applied");
-    }
+          {/* Manage Projects Card */}
+          <div className="bg-gradient-to-r from-purple-500 to-purple-900 p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold text-white mb-4">Manage Projects</h2>
+            <p className="text-gray-100">
+              View and manage your projects.
+            </p>
+            <Link
+              to="/organizations/:id/projects"
+              className="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-orange-600 inline-block"
+            >
+              Manage Projects
+            </Link>
+          </div>
 
-    // Function to update the decision for a specific project
-    const handleUpdateProjectDecision = async () => {
-        try {
-            const response = await axios.post(`/api/projects/${selectedProjectId}/decision`, { decision: projectDecision });
-            console.log("Project decision updated:", response);
-            // Optionally, update the UI to reflect the updated decision
-        } catch (error) {
-            console.log("Error updating project decision:", error);
-        }
-    }
-
-    // Function to update the decision and status for a specific volunteer within the project
-    const handleUpdateVolunteer = async () => {
-        try {
-            const response = await axios.post(`/api/volunteers/${selectedVolunteerId}`, {
-                decision: volunteerDecision,
-                status: volunteerStatus,
-            });
-            console.log("Volunteer decision and status updated:", response);
-            // Optionally, update the UI to reflect the updated decision and status
-        } catch (error) {
-            console.log("Error updating volunteer decision and status:", error);
-        }
-    }
-
-    useEffect(() => {
-        fetchProjects();
-        fetchOrganizationProfile();
-        fetchVolunteersForProject();
-    }, []);
-
-    return (
-        <div className='max-w-full m-auto px-4 py-12'>
-            <h2 className='text-black font-bold text-3xl text-center mb-4'>Dashboard</h2>
-            <div>
-                  {/* Organization Profile */}
-                    <h3 className="text-3xl">MyProfile</h3>
-                    {organization && (
-                    <div>
-                        <img src={organization.organization.image}
-                        alt="image"
-                        className="h-[150px]"
-                        />
-                        <p>Name: {organization.organization.organizationName}</p>
-                        <p>Email: {organization.organization.email}</p>
-                        <p>About Us: {organization.organization.description}</p>
-                        <p>Contact Person: {organization.organization.contactInfo}</p>
-                    </div>
-                    )}
-            </div> 
-            
-
-            {/* List of Projects */}
-            <div>
-                <h3 className="text-3xl">My Projects</h3>
-                    <ul>
-                        {projects && projects.map((project) => (
-                            <li key={project._id}>
-                                <Link to={`/projects/${project._id}`}>
-                                    <span className='py-2 ' onClick={() => handleProjectSelect(project._id)}>{project.title}</span>
-                                </Link>
-                        
-                                  {/* Decision Update Form for Projects */}
-                                    {selectedProjectId === project._id && (
-                                    <div>
-                                        <label>Update Project Decision:</label>
-                                        <select onChange={(e) => setProjectDecision(e.target.value)} value={projectDecision}>
-                                              <option value="Pending">Pending</option>
-                                              <option value="Accepted">Accepted</option>
-                                              <option value="Denied">Denied</option>
-                                        </select>
-                                        <button onClick={handleUpdateProjectDecision}>Update</button>
-                                  </div>
-                                  )}
-                            </li>
-                            ))}
-                    </ul>
-            </div>
-            
-
-            {/* List of Volunteers for Selected Project */}
-            {selectedProjectId && projectVolunteers && (
-                <div>
-                    <h3>List of Volunteers for Selected Project</h3>
-                    <ul>
-                        {projectVolunteers.map((volunteer) => (
-                            <li key={volunteer._id}>
-                                {/* Display volunteer information here */}
-                                <div>
-                                    <label>Update Volunteer Decision:</label>
-                                    <select onChange={(e) => setVolunteerDecision(e.target.value)} value={volunteerDecision}>
-                                        <option value="Pending">Pending</option>
-                                        <option value="Accepted">Accepted</option>
-                                        <option value="Denied">Denied</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label>Update Volunteer Status:</label>
-                                    <select onChange={(e) => setVolunteerStatus(e.target.value)} value={volunteerStatus}>
-                                        <option value="Applied">Applied</option>
-                                        <option value="Accepted">Accepted</option>
-                                        <option value="Denied">Denied</option>
-                                    </select>
-                                </div>
-                                <button onClick={handleUpdateVolunteer}>Update</button>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
+          {/* Volunteer List Section */}
+          <div className="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
+            <VolunteerOrg />
+          </div>
         </div>
-    );
-}
+      </div>
+    </div>
+  );
+};
 
 export default DashboardOrg;

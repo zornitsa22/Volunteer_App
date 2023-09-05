@@ -56,7 +56,7 @@ organizationSchema.pre('save', async function (next) {
   try {
     const options = {
       public_id: this._id,
-      folder: process.env.CLOUDINARY_BOOKS_FOLDER_NAME,
+      folder: process.env.CLOUDINARY_VOLUNTEERS_FOLDER_NAME,
     };
     const imagePath = this.image;
     const res = await cloudinary.uploader.upload(imagePath, options);

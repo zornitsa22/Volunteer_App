@@ -33,7 +33,7 @@ const AuthProviderVol = ({ children }) => {
     try {
       const res = await axios.post("auth/login", volunteer);
       setState(res.data.volunteer, false, null);
-      navigate("/projects");
+      navigate("/volunteers/dashboard/volunteer");
     } catch (error) {
       console.log(error.response);
       setState(null, false, error.response.errors);

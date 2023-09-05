@@ -38,7 +38,7 @@ const getOrganizationById = async (req, res) => {
   }
 };
 
-const updateOrganization = async (req, res) => {
+const updateOrganizationProfile = async (req, res) => {
   try {
   // Handling the file upload first using multer and cloudinary
   const uploadedFile = await cloudinary.uploader.upload(req.file.path);
@@ -169,8 +169,6 @@ const updateProjectDecision = async (req, res) => {
 
 // Function For get logged in Organization:::
 const getLoggedinOrganization = async (req, res) => {
-  console.log("we are calling get loggein...")
-  console.log("🚀 ~ file: auth-organization.js:90 getLoggedinOrganization ~  req:", getLoggedinOrganization);
 try {
   const organization = await Organization.findOne({ _id: req.organization._id }).select('_id email organizationName description contactInfo website projects decision');
   console.log("🚀 ~ file: auth-organization.js:87 ~ getLoggedinOrganization ~ organization:", organization)
@@ -186,7 +184,7 @@ module.exports = {
   
   getAllOrganizations,
   getOrganizationById,
-  updateOrganization,
+  updateOrganizationProfile,
   deleteOrganization,
   getProjectByIdCreatedByOrganization,
   getProjectsCreatedByOrganization,

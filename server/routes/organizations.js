@@ -6,7 +6,7 @@ const {
   
   getAllOrganizations,
   getOrganizationById,
-  updateOrganization,
+  updateOrganizationProfile,
   deleteOrganization,
   getProjectsCreatedByOrganization,
   getProjectByIdCreatedByOrganization,
@@ -22,10 +22,11 @@ router.use(authenticate);
 router.get("/", getAllOrganizations);
 router.get("/profile",authenticate, getLoggedinOrganization);
 
+
 router.get("/:id", getOrganizationById);
 
 // router.post("/", createOrganization);
-router.put("/:id/update", upload.single('image'), updateOrganization);
+router.put("/:profile/update", upload.single('image'),authenticate, updateOrganizationProfile);
 router.delete("/:id", deleteOrganization);
 
 router.get('/:id/projects', getProjectsCreatedByOrganization);
