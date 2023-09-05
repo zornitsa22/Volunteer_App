@@ -22,7 +22,7 @@ function LoginVol() {
   const handleSubmit = (e) => {
     e.preventDefault();
     context.login(volunteer); // Call the login function from the context
-    navigate("/projects")
+    navigate("/volunteers/dashboard/volunteer")
   };
 
  // Redirect to homepage if volunteer is already authenticated

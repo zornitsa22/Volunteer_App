@@ -1,165 +1,92 @@
-
-
-/*
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from '../axiosInstance';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 const VolunteerOrg = () => {
-    const { id } = useParams();
-    const [volunteers, setVolunteers] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const { id } = useParams();
+  const [volunteers, setVolunteers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-    const fetchVol = async () => {
-        try {
-            const response = await axios.get(`/api/organizations/${id}/volunteers`);
-            const fetchedVolunteers = response.data;
-            console.log('check', response.data)
-            setVolunteers(fetchedVolunteers);
-            setLoading(false); 
-        } catch (error) {
-            console.error('Error fetching volunteers by organization', error);
-            setError(error); 
-            setLoading(false); 
-        }
+  // Function to fetch the list of volunteers
+  useEffect(() => {
+    const fetchVolunteers = async () => {
+      try {
+        const response = await axios.get(`/api/organizations/${id}/volunteers`);
+        const fetchedVolunteers = response.data;
+        setVolunteers(fetchedVolunteers);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching volunteers by organization', error);
+        setError(error);
+        setLoading(false);
+      }
     };
 
-    fetchVol();
-    }, [id]);
+    fetchVolunteers();
+  }, [id]);
 
-    return (
-    <div>
-        <h2>List of Volunteers</h2>
-        {loading ? (
-        <p>Loading...</p>
-        ) : error ? (
-        <p>Error: {error.message}</p>
-        ) : (
-        <ul>
-            {volunteers.map((volunteer) => (
-            <li key={volunteer._id}>
-                <p> {volunteer.volunteername}</p>
-                <img src={volunteer.image} alt="imageVolunteer" />
-                <ul>
-                {volunteer.projects.map((project) => (
-                    <li key={project._id}> Project: {project.title}</li>
-                ))}
-                </ul>
-            </li>
-            ))}
-        </ul>
-        )}
-    </div>
-    );
-};
-
-export default VolunteerOrg;*/
-
-import { useState, useEffect } from 'react';
-import axios from '../axiosInstance';
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-
-const VolunteerOrg = () => {
-    const { id } = useParams();
-    const [volunteers, setVolunteers] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    //fetching the list of volunteers 
-    useEffect(() => {
-        const fetchVol = async () => {
-            try {
-                const response = await axios.get(`/api/organizations/${id}/volunteers`);
-                const fetchedVolunteers = response.data;
-                console.log('check', response.data);
-                setVolunteers(fetchedVolunteers);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching volunteers by organization', error);
-                setError(error);
-                setLoading(false);
-            }
-        };
-
-        fetchVol();
-    }, [id]);
-
-    // implementing the Project decision
-
-    const handleDecision = async (volunteerId, projectId, decision) => {
-        try {
-            // Request to update the decision for the volunteer and project
-            const response = await axios.put(`/api/organizations/${id}/projects/${projectId}/decision`, { decision });
-            setVolunteers(response.data)
-            
-            // Update the UI to reflect the new decision
-            setVolunteers((prevVolunteers) =>
-                prevVolunteers.map((volunteer) => {
-                    if (volunteer._id === volunteerId) {
-                        // Update the decision for the specific project
-                        const updatedProjects = volunteer.projects.map((project) => {
-                            if (project._id === projectId) {
-                                return { ...project, decision };
-                            }
-                            return project;
-                        });
-                        return { ...volunteer, projects: updatedProjects };
-                    }
-                    return volunteer;
-                })
-            );
-        } catch (error) {
-            console.error('Error updating decision:', error);
-        }
-    };
-
-    return (
-        <div className='max-w-full mx-auto px-4 py-12 flex flex-col items-center'>
-            <h2 className='text-orange-600 font-bold py-12 text-4xl text-center'>My Volunteers</h2>
-            {loading ? (
-                <p>Loading...</p>
-            ) : error ? (
-                <p>Error: {error.message}</p>
-            ) : (
-                <ul>
-                    {volunteers.map((volunteer) => (
-                        <li key={volunteer._id}>
-                            <p className='text-xl font-bold' >{volunteer.volunteername}</p>
-                            <Link to={`/volunteer/${volunteer._id}`}>View Profile</Link>
-                            <ul>
-                                {volunteer.projects.map((project) => (
-                                    <li key={project._id}>
-                                        <p> Project:{project.title}</p>
-                                        <p> Status: {volunteer.status}</p>
-                                        <p> Decision Status: {project.decision}</p>
-                                        {/* Dropdown menu for decision */}
-                                        <select
-                                            value={project.decision}
-                                            onChange={(e) =>
-                                                handleDecision(
-                                                    volunteer._id,
-                                                    project._id,
-                                                    e.target.value
-                                                )
-                                            }
-                                        >
-                                            <option value="Pending">Pending</option>
-                                            <option value="Accepted">Accepted</option>
-                                            <option value="Denied">Denied</option>
-                                        </select>
-                                    </li>
-                                ))}
-                            </ul>
-                        </li>
+  return (
+    <div className="container mx-auto py-12">
+      {loading ? (
+        <p className="text-center">Loading...</p>
+      ) : error ? (
+        <p className="text-center">Error: {error.message}</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead>
+              <tr className="text-left bg-gray-100">
+                <th className="px-6 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Name
+                </th>
+                <th className="px-6 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Image
+                </th>
+                <th className="px-6 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Project
+                </th>
+                <th className="px-6 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Profile
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {volunteers.map((volunteer) => (
+                <tr key={volunteer._id} className="border-b border-gray-200 hover:bg-gray-100">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">
+                    {volunteer.volunteername}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <img
+                      src={volunteer.image}
+                      alt="Volunteer Image"
+                      className="h-10 w-10 rounded-full"
+                    />
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    {volunteer.projects.map((project) => (
+                      <div key={project._id}>
+                        <p className="text-gray-900">{project.title}</p>
+                      </div>
                     ))}
-                </ul>
-            )}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <Link
+                      to={`/volunteer/${volunteer._id}`}
+                      className="text-blue-500 hover:underline"
+                    >
+                      View Profile
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
 export default VolunteerOrg;
-

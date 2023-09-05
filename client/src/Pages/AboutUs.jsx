@@ -13,23 +13,27 @@ const AboutUs = () => {
             />
           </div>
           <div className="lg:w-1/2 lg:pl-16">
-            <h2 className="text-3xl font-semibold mb-4">About Us</h2>
-            <p className="text-lg mb-6">
-              Welcome to VOL, a thriving community-driven volunteering platform
-              dedicated to creating positive change in the world. Our journey
-              began with a simple yet powerful belief: that the collective
-              efforts of passionate individuals can transform lives and inspire
-              a brighter future.
+            <h2 className="text-4xl font-semibold mb-4 text-gray-800">
+              Our Story
+            </h2>
+            <p className="text-lg mb-6 leading-relaxed text-gray-600">
+              At VOL, we are driven by a simple yet powerful belief: that the
+              collective efforts of passionate individuals can transform lives
+              and inspire a brighter future. Our journey began as a vision to
+              connect people with opportunities to make a positive impact on
+              society.
             </p>
-            <h3 className="text-xl font-semibold mb-4">Our Mission</h3>
-            <p className="text-lg mb-6">
-              At VOL, our mission is to connect individuals who are eager to
-              make a difference with meaningful volunteering opportunities. We
-              believe that volunteering is more than just an activity – it's a
-              profound way to contribute to society, connect with diverse
-              communities, and grow as individuals. Our platform serves as a
-              bridge, linking those who want to give back with organizations and
-              causes that align with their values and skills.
+            <h3 className="text-2xl font-semibold mb-4 text-gray-800">
+              Our Mission
+            </h3>
+            <p className="text-lg mb-6 leading-relaxed text-gray-600">
+              Our mission is to create a thriving community of volunteers,
+              dedicated to creating positive change in the world. We believe
+              that volunteering is more than just an activity – it's a profound
+              way to contribute to society, connect with diverse communities,
+              and grow as individuals. Our platform serves as a bridge, linking
+              those who want to give back with organizations and causes that
+              align with their values and skills.
             </p>
           </div>
         </div>
