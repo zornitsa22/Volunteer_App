@@ -17,6 +17,8 @@ const authRouterOrga = require("./routes/auth-organization");
 // setting the portNumber
 const PORT = process.env.PORT || 8000;
 
+const path = require('path');
+
 // Using the CORS Middelwares
 app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 
