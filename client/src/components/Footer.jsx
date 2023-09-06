@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 import Logo2 from "../assets/Logo2.png";
 import backgroundImage from "../assets/FooterBg.png";
-import namePic from "../assets/nameVol.png";
+import namePic from "../assets/namePic.png";
 
 const Footer = () => {
   return (

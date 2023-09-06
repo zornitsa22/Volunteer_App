@@ -13,7 +13,7 @@ import {
 } from "react-icons/fa";
 import { MdExitToApp } from "react-icons/md";
 import { HiMenuAlt1 } from "react-icons/hi";
-import namePic from "../assets/nameVol.png";
+import namePic from "../assets/namePic.png";
 
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
