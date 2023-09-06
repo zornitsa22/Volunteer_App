@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export const AuthContextOrg = createContext();
 
+
 const AuthProviderOrg = ({ children }) => {
 
     const [organization, setOrganization] = useState(null);

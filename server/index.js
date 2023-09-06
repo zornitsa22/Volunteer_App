@@ -42,9 +42,6 @@ if (process.env.NODE_ENV === 'production') {
 
   app.get('*', (req, res) => res.sendFile(path.join(buildPath, 'index.html')));
 }
-
-  app.get("", (req, res) => res.sendFile(path.join(buildPath, "index.html")));
-}
 // database connection and server starting
 connectDB().then(() => {
   console.log("Db connected");
