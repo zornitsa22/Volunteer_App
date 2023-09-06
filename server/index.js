@@ -34,6 +34,16 @@ app.use('/api/projects', projectRouter);
 app.use('/api/volunteers', volunteerRouter);
 app.use('/api/organizations', organizationRouter);
 
+// DEPLOYMENT
+// this need to be after all routes
+if (process.env.NODE_ENV === 'production') {
+  //*Set static folder up in production
+  const buildPath = path.join(__dirname, '../client/dist');
+  app.use(express.static(buildPath));
+
+  app.get('*', (req, res) => res.sendFile(path.join(buildPath, 'index.html')));
+}
+
 // database connection and server starting
 connectDB().then(() => {
   console.log("Db connected");

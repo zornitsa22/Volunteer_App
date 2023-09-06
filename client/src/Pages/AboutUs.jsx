@@ -10,7 +10,7 @@ const AboutUs = () => {
     <div
       className="max-w-full mx-auto px-4 py-12 flex flex-col items-center"
       style={{
-        backgroundImage: `url(${BackgroundImage})`, // Use the imported image
+        backgroundImage: `url(${BackgroundImage})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
@@ -64,43 +64,44 @@ const AboutUs = () => {
             </div>
             <div className="w-full lg:w-8/12 lg:pt-8">
               <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 lg:gap-4 shadow-lg rounded-md">
+                {/* Update image sizes for small screens */}
                 <div className="p-4 pb-6 flex justify-center flex-col items-center">
                   <img
-                    className="md:block hidden w-32 h-32 rounded-full"
+                    className="w-24 h-24 md:w-32 md:h-32 rounded-full"
                     src={PatrickImage}
                     alt="Patrick"
                   />
-                  <p className="font-medium text-xl leading-5 text-gray-800 mt-4">
+                  <p className="font-medium text-lg md:text-xl leading-5 text-gray-800 mt-4">
                     Patrick
                   </p>
                 </div>
                 <div className="p-4 pb-6 flex justify-center flex-col items-center">
                   <img
-                    className="md:block hidden w-32 h-32 rounded-full"
+                    className="w-24 h-24 md:w-32 md:h-32 rounded-full"
                     src={RashmiImage}
                     alt="Rashmi"
                   />
-                  <p className="font-medium text-xl leading-5 text-gray-800 mt-4">
+                  <p className="font-medium text-lg md:text-xl leading-5 text-gray-800 mt-4">
                     Rashmi
                   </p>
                 </div>
                 <div className="p-4 pb-6 flex justify-center flex-col items-center">
                   <img
-                    className="md:block hidden w-32 h-32 rounded-full"
+                    className="w-24 h-24 md:w-32 md:h-32 rounded-full"
                     src={SheltonImage}
                     alt="Shelton"
                   />
-                  <p className="font-medium text-xl leading-5 text-gray-800 mt-4">
+                  <p className="font-medium text-lg md:text-xl leading-5 text-gray-800 mt-4">
                     Shelton
                   </p>
                 </div>
                 <div className="p-4 pb-6 flex justify-center flex-col items-center">
                   <img
-                    className="md:block hidden w-32 h-32 rounded-full"
+                    className="w-24 h-24 md:w-32 md:h-32 rounded-full"
                     src={ZornitsaImage}
                     alt="Zornitsa"
                   />
-                  <p className="font-medium text-xl leading-5 text-gray-800 mt-4">
+                  <p className="font-medium text-lg md:text-xl leading-5 text-gray-800 mt-4">
                     Zornitsa
                   </p>
                 </div>
