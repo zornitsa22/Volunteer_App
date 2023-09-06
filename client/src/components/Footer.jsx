@@ -16,15 +16,16 @@ const Footer = () => {
       <footer className="bg-white font-montserrat mt-10 py-6 border-t border-gray-300">
         <div className="container mx-auto md:flex md:justify-between md:items-center">
           <div className="md:w-1/3 text-center md:text-left py-4 md:py-0 md:pl-8">
-            <div className="flex items-center">
+            <div className="flex items-center ">
               <img
                 src={Logo2}
                 alt="Logo"
-                className="mx-auto md:mx-0 mb-4 h-12 text-center"
+                className="mx-auto md:mx-3 mb-4 h-12 text-center"
               />
               <img
                 src={namePic}
                 alt="Name"
+                className="mx-auto md:mx-3 mb-4 h-12 text-center"
                 style={{ height: "auto", width: "75px", marginLeft: "10px" }}
               />
             </div>

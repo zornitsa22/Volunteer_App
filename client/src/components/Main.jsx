@@ -50,6 +50,7 @@ function Main() {
           <Route path="profile/update" element={<UpdateProfileVol />} />
         </Route>
 
+        <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/causes" element={<Causes />} />

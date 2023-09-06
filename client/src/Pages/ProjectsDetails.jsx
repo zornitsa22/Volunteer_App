@@ -93,7 +93,7 @@ const ProjectDetails = () => {
             <h2 className="text-[#2A4434] text-center font-bold text-4xl">
               {project.title}
             </h2>
-            <p className="text-2xl font-bold py-2">{project.description}</p>
+            <p className="sm:text-xl md:text-2xl font-semibold py-2">{project.description}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
             <div>
